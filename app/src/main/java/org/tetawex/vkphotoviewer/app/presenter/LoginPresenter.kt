@@ -1,29 +1,20 @@
 package org.tetawex.vkphotoviewer.app.presenter
 
-import org.tetawex.vkphotoviewer.app.App
-import org.tetawex.vkphotoviewer.app.model.repository.Config
 import org.tetawex.vkphotoviewer.app.model.interactor.AccessTokenInteractor
 import org.tetawex.vkphotoviewer.app.model.interactor.LoginPostDataInteractor
+import org.tetawex.vkphotoviewer.app.model.repository.Config
 import org.tetawex.vkphotoviewer.app.view.abs.LoginView
 import org.tetawex.vkphotoviewer.app.view.viewstate.LoginViewState
 import org.tetawex.vkphotoviewer.base.BasePresenter
-import org.tetawex.vkphotoviewer.base.ViewState
-import org.tetawex.vkphotoviewer.base.util.rxextensions.*
+import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
 
 /**
  * Created by tetawex on 16.07.2018.
  */
-class LoginPresenter : BasePresenter<LoginView>() {
-    override fun createViewState(): ViewState<LoginView> {
-        return LoginViewState()
-    }
-
-    lateinit var userCodeInteractor: AccessTokenInteractor
-    lateinit var loginPostDataInteractor: LoginPostDataInteractor
-
-    init {
-        App.instance.presenterInjector.inject(this)
-    }
+class LoginPresenter(private val userCodeInteractor: AccessTokenInteractor,
+                     private val loginPostDataInteractor: LoginPostDataInteractor,
+                     viewState: LoginViewState)
+    : BasePresenter<LoginView>(viewState) {
 
     override fun onFirstViewAttached() {
         val url = Config.AUTH_ENDPOINT

@@ -1,6 +1,5 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
-import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import org.tetawex.vkphotoviewer.R
@@ -9,18 +8,17 @@ import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
 import org.tetawex.vkphotoviewer.app.presenter.MainPresenter
 import org.tetawex.vkphotoviewer.app.view.abs.MainView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
-import org.tetawex.vkphotoviewer.app.view.ui.LoginFragment.Companion.fragmentTag
 import org.tetawex.vkphotoviewer.base.BaseActivity
 import org.tetawex.vkphotoviewer.base.PresenterManager
 
 /**
  * Created by tetawex on 18.07.2018.
  */
-class MainActivity : BaseActivity<MainView, MainPresenter>(), MainView, MainRouter {
+class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, MainRouter {
 
     override val layoutId: Int = R.layout.activity_main
     override val presenterTag: String = AppPresenterManager.MAIN_TAG
-    override val presenterManager: PresenterManager = App.instance.presenterManager
+    override val presenterManager: PresenterManager = app.presenterManager
 
     private lateinit var fragmentManager: FragmentManager
 

@@ -13,12 +13,11 @@ import org.tetawex.vkphotoviewer.app.App
 import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
 import org.tetawex.vkphotoviewer.app.presenter.LoginPresenter
 import org.tetawex.vkphotoviewer.app.view.abs.LoginView
-import org.tetawex.vkphotoviewer.base.BaseActivity
 import org.tetawex.vkphotoviewer.base.BaseFragment
 import org.tetawex.vkphotoviewer.base.PresenterManager
 
 
-class LoginFragment : BaseFragment<LoginView, LoginPresenter>(), LoginView {
+class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView {
     companion object {
         val fragmentTag = AppPresenterManager.LOGIN_TAG
         fun newInstance(): LoginFragment = LoginFragment()
@@ -26,7 +25,7 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter>(), LoginView {
 
 
     override val presenterTag = AppPresenterManager.LOGIN_TAG
-    override val presenterManager: PresenterManager = App.instance.presenterManager//Proper DI please? Anyone?
+    override val presenterManager: PresenterManager = app.presenterManager//Proper DI please? Anyone?
     override val layoutId = R.layout.fragment_login
 
     override fun navigateToMainScreen() {

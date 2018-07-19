@@ -2,6 +2,9 @@ package org.tetawex.vkphotoviewer.app
 
 import android.app.Application
 import android.content.Context
+import org.tetawex.vkphotoviewer.app.model.factory.InteractorFactory
+import org.tetawex.vkphotoviewer.app.model.factory.PresenterFactory
+import org.tetawex.vkphotoviewer.app.model.factory.ViewStateFactory
 import org.tetawex.vkphotoviewer.app.model.repository.Preferences
 import org.tetawex.vkphotoviewer.app.model.repository.PreferencesImpl
 import org.tetawex.vkphotoviewer.app.model.repository.Repository
@@ -18,7 +21,6 @@ import org.tetawex.vkphotoviewer.base.PresenterManager
 class App : Application() {
 
     lateinit var presenterManager: PresenterManager
-    lateinit var presenterInjector: PresenterInjector
     lateinit var repository: Repository
     lateinit var preferences: Preferences
 
@@ -46,19 +48,19 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
 
-        //TODO move to a separate class
-        presenterManager = AppPresenterManager()
+        //Init repository and prefs
         preferences = PreferencesImpl(
                 sharedPreferences = applicationContext.getSharedPreferences(
                         Preferences.PREFERENCES_NAME,
                         Context.MODE_PRIVATE))
         repository = RestRepository(preferences)
-        presenterInjector = PresenterInjector(repository, preferences)
-    }
 
-    companion object {
-        lateinit var instance: App
+        //Init factories
+        val interactorFactory = InteractorFactory(repository, preferences)
+        val viewStateFactory = ViewStateFactory()
+        val presenterFactory = PresenterFactory(interactorFactory, viewStateFactory)
+
+        presenterManager = AppPresenterManager(presenterFactory)
     }
 }

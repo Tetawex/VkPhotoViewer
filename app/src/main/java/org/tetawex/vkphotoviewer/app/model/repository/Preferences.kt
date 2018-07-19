@@ -1,7 +1,5 @@
 package org.tetawex.vkphotoviewer.app.model.repository
 
-import org.tetawex.vkphotoviewer.app.model.AuthTokenProvider
-
 /**
  * Created by tetawex on 17.07.2018.
  */

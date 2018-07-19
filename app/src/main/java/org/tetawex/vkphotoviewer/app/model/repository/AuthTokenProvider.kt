@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.app.model
+package org.tetawex.vkphotoviewer.app.model.repository
 
 /**
  * Created by tetawex on 18.07.2018.

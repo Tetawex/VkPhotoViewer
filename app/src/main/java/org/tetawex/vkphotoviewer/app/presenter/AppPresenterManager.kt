@@ -1,18 +1,20 @@
 package org.tetawex.vkphotoviewer.app.presenter
 
+import org.tetawex.vkphotoviewer.app.model.factory.PresenterFactory
 import org.tetawex.vkphotoviewer.base.PresenterManager
 
 /**
  * Created by tetawex on 16.07.2018.
  */
-class AppPresenterManager : PresenterManager() {
+class AppPresenterManager(private val presenterFactory: PresenterFactory)
+    : PresenterManager() {
     override fun instantiatePresenterByTag(tag: String) {
         when (tag) {
             LOGIN_TAG -> {
-                presenterMap.put(tag, LoginPresenter())
+                presenterMap.put(tag, presenterFactory.createLoginPresenter())
             }
             MAIN_TAG -> {
-                presenterMap.put(tag, MainPresenter())
+                presenterMap.put(tag, MainPresenter())//TODO!
             }
         }
     }

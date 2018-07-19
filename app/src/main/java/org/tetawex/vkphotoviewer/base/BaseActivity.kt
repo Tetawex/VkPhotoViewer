@@ -11,7 +11,7 @@ import java.io.IOException
  * Created by tetawex on 27.02.2018.
  */
 
-abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>> : AppCompatActivity(), BaseView {
+abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppCompatActivity(), BaseView {
 
     abstract val layoutId: Int
 
@@ -26,6 +26,10 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>> : AppCompatA
             if (_presenter == null)
                 attachPresenter()
             return _presenter!!
+        }
+    val app: A
+        get() {
+            return application as A
         }
 
     private var firstAttach = true

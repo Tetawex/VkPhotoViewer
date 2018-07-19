@@ -4,16 +4,12 @@ import io.reactivex.Single
 import org.tetawex.vkphotoviewer.app.model.repository.Repository
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendDetails
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsFeedItem
-import android.os.Looper
 import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import org.json.JSONObject
 import org.json.JSONArray
-import org.tetawex.vkphotoviewer.app.model.AuthTokenProvider
+import org.tetawex.vkphotoviewer.app.model.repository.AuthTokenProvider
 import org.tetawex.vkphotoviewer.app.model.repository.Config
-import org.tetawex.vkphotoviewer.app.model.repository.Preferences
 import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL
