@@ -3,4 +3,6 @@
     <string name="err_no_internet">Проверьте подключение к сети</string>
     <string name="err_generic">Неизвестная ошибка</string>
     <string name="err_presenter">Wrong presenter tag, shame on you, developer!</string>
+    <string name="one_account_allowed">Невозможно добавить более одного аккаунта</string>
+    <string name="account_type">org.tetawex.vkphotoviewer</string>
 </resources>

@@ -41,17 +41,17 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(protected va
     }
 
     fun replaceDataWithNotify(data: List<T>) {
-        this.replaceData(data)
-        this.notifyDataSetChanged()
+        replaceData(data)
+        notifyDataSetChanged()
     }
 
     fun appendDataWithNotify(data: List<T>) {
-        this.appendData(data)
-        this.notifyDataSetChanged()
+        appendData(data)
+        notifyDataSetChanged()
     }
 
     fun clear() {
-        this.data.clear()
+        data.clear()
     }
 
     override fun getItemId(position: Int): Long {
@@ -59,11 +59,11 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(protected va
     }
 
     override fun getItemCount(): Int {
-        return this.data.size
+        return data.size
     }
 
     init {
-        this.data = ArrayList()
+        data = ArrayList()
     }
 }
 

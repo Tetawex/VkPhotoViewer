@@ -1,7 +1,11 @@
 package org.tetawex.vkphotoviewer.base
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import org.tetawex.vkphotoviewer.R
 
@@ -11,12 +15,9 @@ import java.io.IOException
  * Created by tetawex on 27.02.2018.
  */
 
-abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>> : AppCompatActivity(), BaseView {
-
+abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>> : Fragment(), BaseView {
     abstract val layoutId: Int
-
     abstract val presenterTag: String
-
     abstract val presenterManager: PresenterManager
 
     private var _presenter: P? = null
@@ -30,28 +31,22 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>> : AppCompatA
 
     private var firstAttach = true
 
-    abstract fun setupViews()
+    abstract fun setupViews(view: View): View
 
-    abstract fun postInit()
     abstract fun preInit()
+    abstract fun postInit()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): android.view.View? {
         preInit()
 
-        setContentView(layoutId)
-        setupViews()
-
+        val view = inflater.inflate(layoutId, container, false)
         if (savedInstanceState != null) {
             firstAttach = false
         }
 
         attachPresenter()
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
+        return setupViews(view)
     }
 
     override fun onStart() {
@@ -69,7 +64,7 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>> : AppCompatA
     }
 
 
-    private fun attachPresenter() {
+    protected fun attachPresenter() {
         try {
             //Crashes if presenter does not match...
             _presenter = presenterManager.getPresenter<P>(presenterTag)
@@ -98,6 +93,6 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>> : AppCompatA
     }
 
     fun showToast(stringId: Int) {
-        Toast.makeText(this, stringId, Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, stringId, Toast.LENGTH_SHORT).show()
     }
 }

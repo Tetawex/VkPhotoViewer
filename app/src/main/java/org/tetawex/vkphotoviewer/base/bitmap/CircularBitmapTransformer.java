@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.base.bitmaps;
+package org.tetawex.vkphotoviewer.base.bitmap;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

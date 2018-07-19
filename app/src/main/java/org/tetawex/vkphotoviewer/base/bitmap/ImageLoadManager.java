@@ -1,6 +1,5 @@
-package org.tetawex.vkphotoviewer.base.bitmaps;
+package org.tetawex.vkphotoviewer.base.bitmap;
 
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.util.HashMap;

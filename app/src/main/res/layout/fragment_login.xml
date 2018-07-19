@@ -4,11 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.tetawex.vkphotoviewer.app.view.ui.MainActivity">
+    tools:context="org.tetawex.vkphotoviewer.app.view.ui.LoginActivity">
 
-    <FrameLayout
-        android:id="@+id/fragment_placeholder"
+    <WebView
+        android:id="@+id/web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:isScrollContainer="false" />
+
+    <include
+        layout="@layout/view_progressbar"
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

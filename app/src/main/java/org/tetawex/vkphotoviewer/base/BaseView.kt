@@ -9,5 +9,5 @@ interface BaseView {
     fun dispose()
 
     fun showProgressbar()
-    fun hideProgressBar()
+    fun hideProgressbar()
 }

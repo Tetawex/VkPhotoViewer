@@ -10,11 +10,11 @@ import java.util.HashMap
 abstract class PresenterManager {
     protected var presenterMap: MutableMap<String, BasePresenter<*>> = HashMap<String, BasePresenter<*>>(1)
 
-    fun getPresenter(tag: String): BasePresenter<*> {
+    fun <P> getPresenter(tag: String): P {
         if (!presenterMap.containsKey(tag)) {
             instantiatePresenterByTag(tag)
         }
-        return presenterMap[tag]!!
+        return presenterMap[tag]!! as P
     }
 
     fun disposePresenter(tag: String) {

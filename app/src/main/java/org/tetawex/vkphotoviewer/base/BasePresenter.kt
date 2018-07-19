@@ -6,9 +6,9 @@ package org.tetawex.vkphotoviewer.base
 
 abstract class BasePresenter<V : BaseView> {
     //Used for state management
-    val viewState: ViewState<V>
+    private val viewState: ViewState<V>
     //Used to relay commands to view
-    val viewRelay: V
+    protected val viewRelay: V
 
     abstract fun createViewState(): ViewState<V>
 
