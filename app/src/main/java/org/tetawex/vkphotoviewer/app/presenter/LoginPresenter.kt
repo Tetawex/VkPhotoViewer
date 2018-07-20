@@ -5,6 +5,7 @@ import org.tetawex.vkphotoviewer.app.model.interactor.LoginPostDataInteractor
 import org.tetawex.vkphotoviewer.app.model.repository.Config
 import org.tetawex.vkphotoviewer.app.view.abs.LoginView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
+import org.tetawex.vkphotoviewer.app.view.router.RouterProvider
 import org.tetawex.vkphotoviewer.app.view.viewstate.LoginViewState
 import org.tetawex.vkphotoviewer.base.BasePresenter
 import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
@@ -15,7 +16,7 @@ import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
 class LoginPresenter(private val userCodeInteractor: AccessTokenInteractor,
                      private val loginPostDataInteractor: LoginPostDataInteractor,
                      viewState: LoginViewState,
-                     router: MainRouter)
+                     routerProvider: RouterProvider<MainRouter>)
     : BasePresenter<LoginView>(viewState) {
 
     override fun onFirstViewAttached() {
