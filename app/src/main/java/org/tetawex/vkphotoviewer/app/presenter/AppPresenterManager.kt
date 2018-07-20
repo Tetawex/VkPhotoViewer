@@ -14,7 +14,13 @@ class AppPresenterManager(private val presenterFactory: PresenterFactory)
                 presenterMap.put(tag, presenterFactory.createLoginPresenter())
             }
             MAIN_TAG -> {
-                presenterMap.put(tag, MainPresenter())//TODO!
+                presenterMap.put(tag, presenterFactory.createMainPresenter())//TODO!
+            }
+            FRIENDS_LIST_TAG -> {
+                presenterMap.put(tag, presenterFactory.createMainPresenter())//TODO!
+            }
+            FRIENDS_DETAIL_TAG -> {
+                presenterMap.put(tag, presenterFactory.createMainPresenter())//TODO!
             }
         }
     }
@@ -22,7 +28,7 @@ class AppPresenterManager(private val presenterFactory: PresenterFactory)
     companion object {
         val LOGIN_TAG = "login"
         val MAIN_TAG = "main"
-        val FRIENDS_FEED_TAG = "friends_feed"
+        val FRIENDS_LIST_TAG = "friends_list"
         val FRIENDS_DETAIL_TAG = "friends_detail"
     }
 }

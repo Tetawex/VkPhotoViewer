@@ -10,10 +10,11 @@ import org.tetawex.vkphotoviewer.base.BasePresenter
  * Created by tetawex on 18.07.2018.
  */
 class MainPresenter(viewState: MainViewState,
-                    routerProvider: RouterProvider<MainRouter>)
+                    private val routerProvider: RouterProvider<MainRouter>)
     : BasePresenter<MainView>(viewState) {
 
     override fun onFirstViewAttached() {
         viewRelay.showProgressbar()
+        routerProvider.router.navigateToLoginScreen()
     }
 }

@@ -5,5 +5,6 @@ import org.tetawex.vkphotoviewer.base.BaseView
 /**
  * Created by tetawex on 19.07.2018.
  */
-interface FriendsDetailsView : BaseView {
+interface FriendsDetailView : BaseView {
+    fun loadPhoto(url: String)
 }

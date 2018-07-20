@@ -15,16 +15,12 @@ import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
  */
 class LoginPresenter(private val userCodeInteractor: AccessTokenInteractor,
                      private val loginPostDataInteractor: LoginPostDataInteractor,
-                     viewState: LoginViewState,
-                     private val routerProvider: RouterProvider<MainRouter>)
+                     private val routerProvider: RouterProvider<MainRouter>,
+                     viewState: LoginViewState)
     : BasePresenter<LoginView>(viewState) {
 
     override fun onFirstViewAttached() {
-        val url = Config.AUTH_ENDPOINT
-        viewRelay.postUrl(url, loginPostDataInteractor
-                .getPostDataUrl()
-                .toByteArray()
-        )
+        postUrlInView()
     }
 
     fun onTokenReceived(token: String, userId: String) {
@@ -38,6 +34,14 @@ class LoginPresenter(private val userCodeInteractor: AccessTokenInteractor,
                     viewRelay.setAuthResult(0) //CANCELED
                     viewRelay.hideProgressbar()
                     viewRelay.showError(throwable)
+
                 })
+    }
+
+    private fun postUrlInView() {
+        viewRelay.postUrl(Config.AUTH_ENDPOINT, loginPostDataInteractor
+                .getPostDataUrl()
+                .toByteArray()
+        )
     }
 }

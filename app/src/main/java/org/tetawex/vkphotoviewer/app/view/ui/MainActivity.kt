@@ -83,6 +83,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
         if (clearBackStack)
             fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
+        currentFragmentTag = fragmentTag
+
         //Commit the transaction
         transaction.commit()
     }

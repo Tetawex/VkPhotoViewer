@@ -9,7 +9,7 @@ import java.util.Queue
 
 abstract class ViewState<V : BaseView> : BaseView {
     private var view: V? = null
-    private val commandQueue: Queue<(V) -> Unit>
+    protected val commandQueue: Queue<(V) -> Unit>
 
     init {
         commandQueue = LinkedList()
@@ -29,7 +29,7 @@ abstract class ViewState<V : BaseView> : BaseView {
         this.view = view
     }
 
-    //For cached commands (default behavior)
+    //For cached commands (DEFAULT behavior)
     fun submitCommand(command: (V) -> Unit) {
         saveCommand(command)
         runCommand(command)

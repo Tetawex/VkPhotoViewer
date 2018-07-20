@@ -18,7 +18,7 @@
             android:layout_height="?attr/actionBarSize"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="SpaceX "
+            app:title="@string/title_friends"
             app:layout_scrollFlags="scroll|enterAlways">
         </android.support.v7.widget.Toolbar>
 
@@ -28,7 +28,8 @@
         android:id="@+id/rv_launches"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/recycleritem_friends_list"/>
     <ProgressBar
         android:id="@+id/progressbar"
         android:visibility="gone"

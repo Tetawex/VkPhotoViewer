@@ -1,6 +1,7 @@
 package org.tetawex.vkphotoviewer.app.model.factory
 
 import org.tetawex.vkphotoviewer.app.presenter.LoginPresenter
+import org.tetawex.vkphotoviewer.app.presenter.MainPresenter
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.app.view.router.RouterProvider
 
@@ -12,6 +13,12 @@ class PresenterFactory(private val interactorFactory: InteractorFactory,
                 interactorFactory.createAuthTokenInteractor(),
                 interactorFactory.createLoginPostDataInteractor(),
                 viewStateFactory.createLoginViewState(),
+                routerProvider)
+    }
+
+    fun createMainPresenter(): MainPresenter {
+        return MainPresenter(
+                viewStateFactory.createMainViewState(),
                 routerProvider)
     }
 }

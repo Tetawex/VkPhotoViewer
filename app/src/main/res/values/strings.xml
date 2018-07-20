@@ -5,4 +5,5 @@
     <string name="err_presenter">Wrong presenter tag, shame on you, developer!</string>
     <string name="one_account_allowed">Невозможно добавить более одного аккаунта</string>
     <string name="account_type">org.tetawex.vkphotoviewer</string>
+    <string name="title_friends">Список друзей</string>
 </resources>
