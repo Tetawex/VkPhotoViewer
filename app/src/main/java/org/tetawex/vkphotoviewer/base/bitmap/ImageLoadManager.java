@@ -23,7 +23,7 @@ public class ImageLoadManager {
             activeLoaders.get(view.toString()).cancel(true);
         }
         AsyncImageLoader loader =
-                new AsyncImageLoader(view, bitmapTransformer, new AsyncImageLoader.MangerCallback() {
+                new AsyncImageLoader(view, bitmapTransformer, new AsyncImageLoader.ManagerCallback() {
                     @Override
                     public void doneJob() {
                         activeLoaders.remove(view.toString());

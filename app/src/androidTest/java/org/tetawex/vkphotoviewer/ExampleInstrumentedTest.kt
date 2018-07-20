@@ -1,4 +1,4 @@
-package tetawex.org.vkphotoviewer
+package org.tetawex.vkphotoviewer
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

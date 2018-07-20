@@ -12,8 +12,8 @@ class PresenterFactory(private val interactorFactory: InteractorFactory,
         return LoginPresenter(
                 interactorFactory.createAuthTokenInteractor(),
                 interactorFactory.createLoginPostDataInteractor(),
-                viewStateFactory.createLoginViewState(),
-                routerProvider)
+                routerProvider,
+                viewStateFactory.createLoginViewState())
     }
 
     fun createMainPresenter(): MainPresenter {

@@ -52,14 +52,14 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider) : Reposit
             val length = array.length()
             for (i in 0 until length) {
 
-                val `object` = array.getJSONObject(i)
-                val launchDate = `object`.getLong("launch_date_unix")
-                val details = `object`.getString("details")
+                val jsonObject = array.getJSONObject(i)
+                val launchDate = jsonObject.getLong("launch_date_unix")
+                val details = jsonObject.getString("details")
 
-                val rocketObj = `object`.getJSONObject("rocket")
+                val rocketObj = jsonObject.getJSONObject("rocket")
                 val rocketName = rocketObj.getString("rocket_name")
 
-                val linksObj = `object`.getJSONObject("links")
+                val linksObj = jsonObject.getJSONObject("links")
                 val patchUrl = linksObj.getString("mission_patch")
                 val articleUrl = linksObj.getString("article_link")
 

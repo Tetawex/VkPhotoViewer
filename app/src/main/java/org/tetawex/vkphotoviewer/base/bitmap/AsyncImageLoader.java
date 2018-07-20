@@ -13,16 +13,16 @@ import java.net.URL;
 public class AsyncImageLoader extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> imageViewReference;
     private BitmapTransformer bitmapTransformer;
-    private MangerCallback managerCallback;
+    private ManagerCallback managerCallback;
 
-    public interface MangerCallback {
+    public interface ManagerCallback {
         void doneJob();
     }
 
 
     public AsyncImageLoader(ImageView imageView,
                             BitmapTransformer bitmapTransformer,
-                            MangerCallback managerCallback) {
+                            ManagerCallback managerCallback) {
         // Use a WeakReference to ensure the ImageView can be garbage collected
         imageViewReference = new WeakReference<ImageView>(imageView);
         this.bitmapTransformer = bitmapTransformer;

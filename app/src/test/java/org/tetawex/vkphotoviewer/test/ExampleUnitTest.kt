@@ -1,4 +1,4 @@
-package tetawex.org.vkphotoviewer
+package org.tetawex.vkphotoviewer.test
 
 import org.junit.Test
 
