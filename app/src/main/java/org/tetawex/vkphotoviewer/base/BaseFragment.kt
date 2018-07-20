@@ -18,6 +18,7 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A> : Fragmen
     abstract val presenterTag: String
     abstract val presenterManager: PresenterManager
 
+    @Suppress("UNCHECKED_CAST")
     val app: A
         get() {
             return activity!!.application as A

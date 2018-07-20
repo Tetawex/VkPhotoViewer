@@ -27,6 +27,8 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppComp
                 attachPresenter()
             return _presenter!!
         }
+
+    @Suppress("UNCHECKED_CAST")
     val app: A
         get() {
             return application as A

@@ -37,6 +37,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
 
     override fun preInit() {
         fragmentManager = supportFragmentManager!!
+        app.mainRouter = this
     }
 
     override fun goBack() {
@@ -49,7 +50,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
         val existingFragment: Fragment? = fragmentManager.findFragmentByTag(fragmentTag)
         val transaction = fragmentManager.beginTransaction()
 
-        //If fragment exists in backstack, get it
+        //If fragment exists in backstack, put it in front
         if (existingFragment != null) {
             transaction.replace(R.id.fragment_placeholder, existingFragment, fragmentTag)
             fragmentManager.popBackStack(fragmentTag, 0)
