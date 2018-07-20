@@ -25,12 +25,8 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView 
 
 
     override val presenterTag = AppPresenterManager.LOGIN_TAG
-    override val presenterManager: PresenterManager = app.presenterManager//Proper DI please? Anyone?
+    override val presenterManager: PresenterManager = app.presenterManager
     override val layoutId = R.layout.fragment_login
-
-    override fun navigateToMainScreen() {
-        //startActivity(Intent(this, MainActivity::class.java))
-    }
 
     override fun setupViews(view: View): View {
         setupWebView()

@@ -16,7 +16,7 @@ import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
 class LoginPresenter(private val userCodeInteractor: AccessTokenInteractor,
                      private val loginPostDataInteractor: LoginPostDataInteractor,
                      viewState: LoginViewState,
-                     routerProvider: RouterProvider<MainRouter>)
+                     private val routerProvider: RouterProvider<MainRouter>)
     : BasePresenter<LoginView>(viewState) {
 
     override fun onFirstViewAttached() {
@@ -33,7 +33,7 @@ class LoginPresenter(private val userCodeInteractor: AccessTokenInteractor,
                 .applySchedulers()
                 .subscribe({
                     viewRelay.setAuthResult(-1) //OK
-                    viewRelay.navigateToMainScreen()
+                    routerProvider.router.navigateToFriendsFeedScreen()
                 }, { throwable ->
                     viewRelay.setAuthResult(0) //CANCELED
                     viewRelay.hideProgressbar()

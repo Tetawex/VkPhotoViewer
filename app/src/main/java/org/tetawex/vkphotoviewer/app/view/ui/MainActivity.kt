@@ -22,6 +22,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
 
     private lateinit var fragmentManager: FragmentManager
 
+    private var currentFragmentTag = ""
+
     override fun showProgressbar() {
 
     }
@@ -45,8 +47,22 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
     }
 
     override fun navigateToLoginScreen() {
+        replaceFragment(LoginFragment.fragmentTag, clearBackStack = true)
+    }
 
-        val fragmentTag = LoginFragment.fragmentTag
+    override fun navigateToFriendsFeedScreen() {
+    }
+
+    override fun navigateToFriendDetailsScreen() {
+    }
+
+    override fun onBackPressed() {
+        goBack()
+    }
+
+    private fun replaceFragment(fragmentTag: String,
+            //addToBackStack: Boolean = true,
+                                clearBackStack: Boolean = false) {
         val existingFragment: Fragment? = fragmentManager.findFragmentByTag(fragmentTag)
         val transaction = fragmentManager.beginTransaction()
 
@@ -64,17 +80,10 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
             fragmentManager.popBackStack(fragmentTag, 0)
         }
 
+        if (clearBackStack)
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
         //Commit the transaction
         transaction.commit()
-    }
-
-    override fun navigateToFriendsFeedScreen() {
-    }
-
-    override fun navigateToFriendDetailsScreen() {
-    }
-
-    override fun onBackPressed() {
-        goBack()
     }
 }

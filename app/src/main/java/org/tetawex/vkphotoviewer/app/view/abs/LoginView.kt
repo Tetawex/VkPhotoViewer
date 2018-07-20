@@ -10,5 +10,4 @@ interface LoginView : BaseView {
     fun postUrl(url: String, postData: ByteArray)
 
     fun setAuthResult(result: Int)
-    fun navigateToMainScreen()
 }
