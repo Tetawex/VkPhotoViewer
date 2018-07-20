@@ -29,7 +29,7 @@ class LoginPresenter(private val userCodeInteractor: AccessTokenInteractor,
                 .applySchedulers()
                 .subscribe({
                     viewRelay.setAuthResult(-1) //OK
-                    routerProvider.router.navigateToFriendsFeedScreen()
+                    routerProvider.router.navigateToFriendsListScreen()
                 }, { throwable ->
                     viewRelay.setAuthResult(0) //CANCELED
                     viewRelay.hideProgressbar()
@@ -38,10 +38,16 @@ class LoginPresenter(private val userCodeInteractor: AccessTokenInteractor,
                 })
     }
 
+    fun urlLoaded() {
+        viewRelay.hideProgressbar()
+    }
+
     private fun postUrlInView() {
+        viewRelay.showProgressbar()
         viewRelay.postUrl(Config.AUTH_ENDPOINT, loginPostDataInteractor
                 .getPostDataUrl()
                 .toByteArray()
         )
     }
+
 }

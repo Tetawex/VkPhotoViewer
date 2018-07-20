@@ -8,26 +8,25 @@ import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.App
 import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
 import org.tetawex.vkphotoviewer.app.presenter.FriendsDetailPresenter
-import org.tetawex.vkphotoviewer.app.presenter.LoginPresenter
 import org.tetawex.vkphotoviewer.app.view.abs.FriendsDetailView
-import org.tetawex.vkphotoviewer.app.view.abs.LoginView
 import org.tetawex.vkphotoviewer.base.BaseFragment
 import org.tetawex.vkphotoviewer.base.PresenterManager
 import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.CircularBitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
+import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
+import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
 class FriendsDetailFragment : BaseFragment<FriendsDetailView, FriendsDetailPresenter, App>(), FriendsDetailView {
 
     companion object {
-        val fragmentTag = AppPresenterManager.FRIENDS_LIST_TAG
+        val fragmentTag = AppPresenterManager.FRIENDS_DETAIL_TAG
         fun newInstance(): FriendsDetailFragment = FriendsDetailFragment()
     }
 
 
     override val presenterTag = AppPresenterManager.FRIENDS_LIST_TAG
-    override val presenterManager: PresenterManager = app.presenterManager
     override val layoutId = R.layout.fragment_friends_list
 
     private val imageLoadManager: ImageLoadManager = ImageLoadManager()
@@ -44,17 +43,18 @@ class FriendsDetailFragment : BaseFragment<FriendsDetailView, FriendsDetailPrese
     }
 
     override fun preInit() {
+        presenterManager = app.presenterManager
     }
 
     override fun postInit() {
     }
 
     override fun showProgressbar() {
-        progressbar.visibility = android.view.View.VISIBLE
+        progressbar.show()
     }
 
     override fun hideProgressbar() {
-        progressbar.visibility = android.view.View.GONE
+        progressbar.hide()
     }
 
     fun showError(errorId: Int) {

@@ -1,5 +1,6 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.WebSettings
@@ -15,6 +16,8 @@ import org.tetawex.vkphotoviewer.app.presenter.LoginPresenter
 import org.tetawex.vkphotoviewer.app.view.abs.LoginView
 import org.tetawex.vkphotoviewer.base.BaseFragment
 import org.tetawex.vkphotoviewer.base.PresenterManager
+import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
+import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
 class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView {
@@ -25,18 +28,19 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView 
 
 
     override val presenterTag = AppPresenterManager.LOGIN_TAG
-    override val presenterManager: PresenterManager = app.presenterManager
     override val layoutId = R.layout.fragment_login
 
     override fun setupViews(view: View): View {
-        setupWebView()
         return view
     }
 
     override fun preInit() {
+        presenterManager = app.presenterManager
+        Log.d("reeeee", "login")
     }
 
     override fun postInit() {
+        setupWebView()
     }
 
     lateinit var webViewClient: WebViewClient
@@ -66,7 +70,6 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView 
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 Log.e("url", url)
                 hasUrlLoaded = true
-
                 if (url.contains("#access_token=") && url.contains("user_id=")) {
                     val params = url.split("#", "&")
                     presenter.onTokenReceived(
@@ -79,16 +82,14 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView 
         }
 
         web_view.webViewClient = webViewClient
-
-        hideProgressbar()
     }
 
     override fun showProgressbar() {
-        progressbar.visibility = android.view.View.VISIBLE
+        progressbar.show()
     }
 
     override fun hideProgressbar() {
-        progressbar.visibility = android.view.View.GONE
+        progressbar.hide()
     }
 
     fun showError(errorId: Int) {
@@ -107,5 +108,18 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView 
     override fun postUrl(url: String, postData: ByteArray) {
         web_view.postUrl(url, postData)
     }
+
+    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            webViewClient.
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState);
+
+        //Save the fragment's state here
+    }*/
 }
 

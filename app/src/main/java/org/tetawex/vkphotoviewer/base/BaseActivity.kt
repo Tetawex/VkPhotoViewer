@@ -3,21 +3,30 @@ package org.tetawex.vkphotoviewer.base
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import kotlinx.android.synthetic.main.view_progressbar.*
 import org.tetawex.vkphotoviewer.R
+import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
+import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 import java.io.IOException
 
 /**
  * Created by tetawex on 27.02.2018.
  */
-
 abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppCompatActivity(), BaseView {
+    override fun showProgressbar() {
+        progressbar.show()
+    }
+
+    override fun hideProgressbar() {
+        progressbar.hide()
+    }
 
     abstract val layoutId: Int
 
     abstract val presenterTag: String
 
-    abstract val presenterManager: PresenterManager
+    lateinit var presenterManager: PresenterManager
 
     private var _presenter: P? = null
     val presenter: P

@@ -16,10 +16,6 @@ class LoginViewState : ViewWithProgressBarViewState<LoginView>(), LoginView {
         submitCommand { it.setAuthResult(result) }
     }
 
-    override fun navigateToMainScreen() {
-        runCommand { it.navigateToMainScreen() }
-    }
-
     override fun loadUrl(url: String) {
         runCommand { it.loadUrl(url) }
     }

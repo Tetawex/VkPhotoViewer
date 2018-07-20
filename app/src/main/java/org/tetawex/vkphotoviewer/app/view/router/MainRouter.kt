@@ -5,6 +5,6 @@ package org.tetawex.vkphotoviewer.app.view.router
  */
 interface MainRouter : Router {
     fun navigateToLoginScreen()
-    fun navigateToFriendsFeedScreen()
-    fun navigateToFriendDetailsScreen()
+    fun navigateToFriendsListScreen()
+    fun navigateToFriendsDetailScreen()
 }

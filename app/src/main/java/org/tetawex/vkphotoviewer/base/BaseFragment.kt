@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import kotlinx.android.synthetic.main.view_progressbar.*
 import org.tetawex.vkphotoviewer.R
+import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
+import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 import java.io.IOException
 
 /**
@@ -16,7 +19,8 @@ import java.io.IOException
 abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A> : Fragment(), BaseView {
     abstract val layoutId: Int
     abstract val presenterTag: String
-    abstract val presenterManager: PresenterManager
+
+    lateinit var presenterManager: PresenterManager
 
     @Suppress("UNCHECKED_CAST")
     val app: A
@@ -40,20 +44,27 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A> : Fragmen
     abstract fun preInit()
     abstract fun postInit()
 
+    override fun showProgressbar() {
+        progressbar.show()
+    }
+
+    override fun hideProgressbar() {
+        progressbar.hide()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): android.view.View? {
-        preInit()
-
         val view = inflater.inflate(layoutId, container, false)
         if (savedInstanceState != null) {
             firstAttach = false
         }
 
-        attachPresenter()
         return setupViews(view)
     }
 
     override fun onStart() {
+        preInit()
+        attachPresenter()
         super.onStart()
         if (firstAttach) {
             firstAttach = false

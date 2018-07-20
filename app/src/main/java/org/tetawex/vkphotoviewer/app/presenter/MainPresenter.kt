@@ -14,7 +14,7 @@ class MainPresenter(viewState: MainViewState,
     : BasePresenter<MainView>(viewState) {
 
     override fun onFirstViewAttached() {
-        viewRelay.showProgressbar()
+        //viewRelay.showProgressbar()
         routerProvider.router.navigateToLoginScreen()
     }
 }

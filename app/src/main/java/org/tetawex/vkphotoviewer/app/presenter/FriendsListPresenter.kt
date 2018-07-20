@@ -10,7 +10,7 @@ import org.tetawex.vkphotoviewer.base.BasePresenter
 class FriendsListPresenter(viewState: FriendsListViewState) :
         BasePresenter<FriendsListView>(viewState) {
     override fun onFirstViewAttached() {
-
+        viewRelay.hideProgressbar()
     }
 
     fun openFriendsDetail(id: Int) {

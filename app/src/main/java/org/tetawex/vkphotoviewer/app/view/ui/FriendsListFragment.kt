@@ -14,6 +14,8 @@ import org.tetawex.vkphotoviewer.app.view.abs.LoginView
 import org.tetawex.vkphotoviewer.base.BaseFragment
 import org.tetawex.vkphotoviewer.base.PresenterManager
 import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
+import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
+import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
 class FriendsListFragment : BaseFragment<FriendsListView, FriendsListPresenter, App>(), FriendsListView {
@@ -25,7 +27,6 @@ class FriendsListFragment : BaseFragment<FriendsListView, FriendsListPresenter, 
 
 
     override val presenterTag = AppPresenterManager.FRIENDS_LIST_TAG
-    override val presenterManager: PresenterManager = app.presenterManager
     override val layoutId = R.layout.fragment_friends_list
 
     private val imageLoadManager: ImageLoadManager = ImageLoadManager()
@@ -52,17 +53,18 @@ class FriendsListFragment : BaseFragment<FriendsListView, FriendsListPresenter, 
     }
 
     override fun preInit() {
+        presenterManager = app.presenterManager
     }
 
     override fun postInit() {
     }
 
     override fun showProgressbar() {
-        progressbar.visibility = android.view.View.VISIBLE
+        progressbar.show()
     }
 
     override fun hideProgressbar() {
-        progressbar.visibility = android.view.View.GONE
+        progressbar.hide()
     }
 
     fun showError(errorId: Int) {
