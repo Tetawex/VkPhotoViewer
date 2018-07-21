@@ -7,10 +7,10 @@ import kotlinx.android.synthetic.main.view_progressbar.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.App
 import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
-import org.tetawex.vkphotoviewer.app.presenter.FriendsDetailPresenter
-import org.tetawex.vkphotoviewer.app.view.abs.FriendsDetailView
-import org.tetawex.vkphotoviewer.base.BaseFragment
-import org.tetawex.vkphotoviewer.base.PresenterManager
+import org.tetawex.vkphotoviewer.app.presenter.FriendDetailsPresenter
+import org.tetawex.vkphotoviewer.app.view.abs.FriendDetailsView
+import org.tetawex.vkphotoviewer.app.view.router.MainRouter
+import org.tetawex.vkphotoviewer.base.RoutedFragment
 import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.CircularBitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
@@ -18,15 +18,15 @@ import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
-class FriendsDetailFragment : BaseFragment<FriendsDetailView, FriendsDetailPresenter, App>(), FriendsDetailView {
+class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPresenter, MainRouter, App>(), FriendDetailsView {
 
     companion object {
-        val fragmentTag = AppPresenterManager.FRIENDS_DETAIL_TAG
-        fun newInstance(): FriendsDetailFragment = FriendsDetailFragment()
+        val fragmentTag = AppPresenterManager.FRIEND_DETAILS_TAG
+        fun newInstance(): FriendDetailsFragment = FriendDetailsFragment()
     }
 
 
-    override val presenterTag = AppPresenterManager.FRIENDS_LIST_TAG
+    override val presenterTag = AppPresenterManager.FRIEND_LIST_TAG
     override val layoutId = R.layout.fragment_friends_list
 
     private val imageLoadManager: ImageLoadManager = ImageLoadManager()

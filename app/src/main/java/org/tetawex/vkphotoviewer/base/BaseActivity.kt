@@ -6,8 +6,6 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.view_progressbar.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
-import org.tetawex.vkphotoviewer.base.util.viewextensions.show
-
 import java.io.IOException
 
 /**
@@ -15,7 +13,7 @@ import java.io.IOException
  */
 abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppCompatActivity(), BaseView {
     override fun showProgressbar() {
-        progressbar.show()
+        progressbar.hide()
     }
 
     override fun hideProgressbar() {
@@ -70,12 +68,12 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppComp
     }
 
     override fun onStart() {
+        postInit()
         super.onStart()
         if (firstAttach) {
             firstAttach = false
             _presenter!!.onFirstViewAttached()
         }
-        postInit()
     }
 
     override fun onStop() {

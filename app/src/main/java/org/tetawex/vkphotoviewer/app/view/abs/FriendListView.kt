@@ -5,6 +5,6 @@ import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 /**
  * Created by tetawex on 19.07.2018.
  */
-interface FriendsListView : EndlessScrollListView<FriendsListItem> {
+interface FriendListView : EndlessScrollListView<FriendsListItem> {
 
 }

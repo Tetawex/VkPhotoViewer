@@ -1,7 +1,7 @@
 package org.tetawex.vkphotoviewer.app.model.factory
 
-import org.tetawex.vkphotoviewer.app.view.viewstate.FriendsDetailViewState
-import org.tetawex.vkphotoviewer.app.view.viewstate.FriendsListViewState
+import org.tetawex.vkphotoviewer.app.view.viewstate.FriendDetailsViewState
+import org.tetawex.vkphotoviewer.app.view.viewstate.FriendListViewState
 import org.tetawex.vkphotoviewer.app.view.viewstate.LoginViewState
 import org.tetawex.vkphotoviewer.app.view.viewstate.MainViewState
 
@@ -14,11 +14,11 @@ class ViewStateFactory {
         return LoginViewState()
     }
 
-    fun createFriendsListViewState(): FriendsListViewState {
-        return FriendsListViewState()
+    fun createFriendsListViewState(): FriendListViewState {
+        return FriendListViewState()
     }
 
-    fun createFriendsDetailViewState(): FriendsDetailViewState {
-        return FriendsDetailViewState()
+    fun createFriendsDetailViewState(): FriendDetailsViewState {
+        return FriendDetailsViewState()
     }
 }

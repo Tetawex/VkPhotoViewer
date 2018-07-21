@@ -9,7 +9,6 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import org.json.JSONArray
 import org.tetawex.vkphotoviewer.app.model.repository.AuthTokenProvider
-import org.tetawex.vkphotoviewer.app.model.repository.Config
 import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL

@@ -1,54 +1,50 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.view_progressbar.*
+import kotlinx.android.synthetic.main.fragment_friends_list.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.App
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
-import org.tetawex.vkphotoviewer.app.presenter.FriendsListPresenter
-import org.tetawex.vkphotoviewer.app.presenter.LoginPresenter
-import org.tetawex.vkphotoviewer.app.view.abs.FriendsListView
-import org.tetawex.vkphotoviewer.app.view.abs.LoginView
-import org.tetawex.vkphotoviewer.base.BaseFragment
-import org.tetawex.vkphotoviewer.base.PresenterManager
+import org.tetawex.vkphotoviewer.app.presenter.FriendListPresenter
+import org.tetawex.vkphotoviewer.app.view.abs.FriendListView
+import org.tetawex.vkphotoviewer.app.view.router.MainRouter
+import org.tetawex.vkphotoviewer.base.RoutedFragment
 import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
-class FriendsListFragment : BaseFragment<FriendsListView, FriendsListPresenter, App>(), FriendsListView {
+class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, MainRouter, App>(), FriendListView {
 
     companion object {
-        val fragmentTag = AppPresenterManager.FRIENDS_LIST_TAG
-        fun newInstance(): FriendsListFragment = FriendsListFragment()
+        val fragmentTag = AppPresenterManager.FRIEND_LIST_TAG
+        fun newInstance(): FriendListFragment = FriendListFragment()
     }
 
 
-    override val presenterTag = AppPresenterManager.FRIENDS_LIST_TAG
+    override val presenterTag = AppPresenterManager.FRIEND_LIST_TAG
     override val layoutId = R.layout.fragment_friends_list
 
     private val imageLoadManager: ImageLoadManager = ImageLoadManager()
 
-    private lateinit var friendListRecyclerAdapter: FriendsListRecyclerAdapter
+    private lateinit var friendListRecyclerAdapter: FriendListRecyclerAdapter
 
     override fun appendList(items: List<FriendsListItem>) {
-
+        friendListRecyclerAdapter.appendDataWithNotify(items)
     }
 
     override fun setList(items: List<FriendsListItem>) {
+        friendListRecyclerAdapter.replaceDataWithNotify(items)
     }
 
     override fun clearList() {
+        friendListRecyclerAdapter.clear()
     }
 
     override fun setupViews(view: View): View {
-        friendListRecyclerAdapter = FriendsListRecyclerAdapter(
-                context!!,
-                imageLoadManager,
-                { id -> presenter.openFriendsDetail(id) })
-
         return view
     }
 
@@ -57,6 +53,14 @@ class FriendsListFragment : BaseFragment<FriendsListView, FriendsListPresenter, 
     }
 
     override fun postInit() {
+        friendListRecyclerAdapter = FriendListRecyclerAdapter(
+                context!!,
+                imageLoadManager,
+                { item -> presenter.onOpenFriendsDetail(item) }
+        )
+
+        rv_friend_list.adapter = friendListRecyclerAdapter
+        rv_friend_list.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun showProgressbar() {

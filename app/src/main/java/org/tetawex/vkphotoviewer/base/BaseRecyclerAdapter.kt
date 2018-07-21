@@ -5,13 +5,12 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import java.util.ArrayList
+import java.util.*
 
 abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(protected var context: Context) : RecyclerView.Adapter<VH>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     var data: MutableList<T> = ArrayList<T>()
-        private set(data) {
+        protected set(data) {
             field = data
         }
 
@@ -52,6 +51,7 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(protected va
 
     fun clear() {
         data.clear()
+        notifyDataSetChanged()
     }
 
     override fun getItemId(position: Int): Long {

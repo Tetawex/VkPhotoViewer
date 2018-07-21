@@ -1,5 +1,6 @@
 package org.tetawex.vkphotoviewer.base
 
+import android.app.Application
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -16,7 +17,7 @@ import java.io.IOException
  * Created by tetawex on 27.02.2018.
  */
 
-abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A> : Fragment(), BaseView {
+abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A : Application> : Fragment(), BaseView {
     abstract val layoutId: Int
     abstract val presenterTag: String
 
@@ -54,6 +55,7 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A> : Fragmen
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): android.view.View? {
+        preInit()
         val view = inflater.inflate(layoutId, container, false)
         if (savedInstanceState != null) {
             firstAttach = false
@@ -63,14 +65,16 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A> : Fragmen
     }
 
     override fun onStart() {
-        preInit()
         attachPresenter()
         super.onStart()
+
+        postInit()
+
         if (firstAttach) {
             firstAttach = false
             _presenter!!.onFirstViewAttached()
         }
-        postInit()
+
     }
 
     override fun onStop() {

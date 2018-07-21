@@ -9,5 +9,5 @@ interface LoginView : BaseView {
     fun loadUrl(url: String)
     fun postUrl(url: String, postData: ByteArray)
 
-    fun setAuthResult(result: Int)
+    fun finishLogin()
 }

@@ -14,10 +14,10 @@ import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
 /**
  * Created by tetawex on 20.07.2018.
  */
-class FriendsListRecyclerAdapter(context: Context,
-                                 private val imageLoadManager: ImageLoadManager,
-                                 val itemClickListener: (Int) -> Unit) :
-        BaseRecyclerAdapter<FriendsListItem, FriendsListRecyclerAdapter.ViewHolder>(context) {
+class FriendListRecyclerAdapter(context: Context,
+                                private val imageLoadManager: ImageLoadManager,
+                                val itemClickListener: (FriendsListItem) -> Unit) :
+        BaseRecyclerAdapter<FriendsListItem, FriendListRecyclerAdapter.ViewHolder>(context) {
 
     private val bitmapTransformer: BitmapTransformer = BitmapTransformers.CIRCULAR
 
@@ -27,7 +27,7 @@ class FriendsListRecyclerAdapter(context: Context,
         viewHolder.view.run {
             imageLoadManager.loadImageIntoImageView(iv_photo, bitmapTransformer, item.photoUrl)
             tv_name.text = item.nickname
-            setOnClickListener { itemClickListener.invoke(item.id) }
+            setOnClickListener { itemClickListener.invoke(item) }
         }
     }
 

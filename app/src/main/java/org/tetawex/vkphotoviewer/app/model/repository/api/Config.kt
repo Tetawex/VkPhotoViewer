@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.app.model.repository
+package org.tetawex.vkphotoviewer.app.model.repository.api
 
 /**
  * Created by tetawex on 17.07.2018.
@@ -6,8 +6,8 @@ package org.tetawex.vkphotoviewer.app.model.repository
 
 object Config {
     val AUTH_ENDPOINT = "https://oauth.vk.com/authorize"
-    val REDIRECT_URI = "blank.html"
-    val CLIENT_ID = "6634748"
+    val REDIRECT_URI = "https://oauth.vk.com/blank.html"
+    val CLIENT_ID = "6639080"
     val API_VERSION = "5.80"
     val ENCODING = "UTF-8"
 

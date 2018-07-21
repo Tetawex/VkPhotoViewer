@@ -6,19 +6,19 @@ import org.tetawex.vkphotoviewer.app.model.repository.Repository
 
 class InteractorFactory(private val repository: Repository,
                         private val preferences: Preferences) {
-    fun createAuthTokenInteractor(): AccessTokenInteractor {
-        return AccessTokenUseCase(repository, preferences)
+    fun createAuthTokenInteractor(): AuthTokenInteractor {
+        return AuthTokenUseCase(repository, preferences)
     }
 
     fun createLoginPostDataInteractor(): LoginPostDataInteractor {
         return LoginPostDataUseCase()
     }
 
-    fun createFriendsDetailInteractor(): FriendsDetailInteractor {
-        return FriendsDetailUseCase(repository)
+    fun createFriendsDetailInteractor(): FriendDetailsInteractor {
+        return FriendDetailsUseCase(repository)
     }
 
-    fun createFriendsListInteractor(): FriendsListInteractor {
-        return FriendsListUseCase(repository)
+    fun createFriendsListInteractor(): FriendListInteractor {
+        return FriendListUseCase(repository)
     }
 }

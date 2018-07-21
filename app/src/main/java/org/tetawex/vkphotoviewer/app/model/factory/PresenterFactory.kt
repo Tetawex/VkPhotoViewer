@@ -1,24 +1,35 @@
 package org.tetawex.vkphotoviewer.app.model.factory
 
+import org.tetawex.vkphotoviewer.app.presenter.FriendDetailsPresenter
+import org.tetawex.vkphotoviewer.app.presenter.FriendListPresenter
 import org.tetawex.vkphotoviewer.app.presenter.LoginPresenter
 import org.tetawex.vkphotoviewer.app.presenter.MainPresenter
-import org.tetawex.vkphotoviewer.app.view.router.MainRouter
-import org.tetawex.vkphotoviewer.app.view.router.RouterProvider
 
 class PresenterFactory(private val interactorFactory: InteractorFactory,
-                       private val viewStateFactory: ViewStateFactory,
-                       private val routerProvider: RouterProvider<MainRouter>) {
+                       private val viewStateFactory: ViewStateFactory) {
     fun createLoginPresenter(): LoginPresenter {
         return LoginPresenter(
                 interactorFactory.createAuthTokenInteractor(),
                 interactorFactory.createLoginPostDataInteractor(),
-                routerProvider,
                 viewStateFactory.createLoginViewState())
     }
 
     fun createMainPresenter(): MainPresenter {
         return MainPresenter(
-                viewStateFactory.createMainViewState(),
-                routerProvider)
+                interactorFactory.createAuthTokenInteractor(),
+                interactorFactory.createLoginPostDataInteractor(),
+                viewStateFactory.createMainViewState())
+    }
+
+    fun createFriendListPresenter(): FriendListPresenter {
+        return FriendListPresenter(
+                interactorFactory.createFriendsListInteractor(),
+                viewStateFactory.createFriendsListViewState())
+    }
+
+    fun createFriendDetailsPresenter(): FriendDetailsPresenter {
+        return FriendDetailsPresenter(
+                interactorFactory.createFriendsDetailInteractor(),
+                viewStateFactory.createFriendsDetailViewState())
     }
 }

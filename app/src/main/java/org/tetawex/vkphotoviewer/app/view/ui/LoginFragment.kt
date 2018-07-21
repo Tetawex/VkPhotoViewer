@@ -1,6 +1,6 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
-import android.os.Bundle
+import android.graphics.Bitmap
 import android.util.Log
 import android.view.View
 import android.webkit.WebSettings
@@ -14,13 +14,17 @@ import org.tetawex.vkphotoviewer.app.App
 import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
 import org.tetawex.vkphotoviewer.app.presenter.LoginPresenter
 import org.tetawex.vkphotoviewer.app.view.abs.LoginView
-import org.tetawex.vkphotoviewer.base.BaseFragment
-import org.tetawex.vkphotoviewer.base.PresenterManager
+import org.tetawex.vkphotoviewer.app.view.router.MainRouter
+import org.tetawex.vkphotoviewer.base.RoutedFragment
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
-class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView {
+class LoginFragment : RoutedFragment<LoginView, LoginPresenter, MainRouter, App>(), LoginView {
+    override fun finishLogin() {
+        router.navigateToFriendListScreen()
+    }
+
     companion object {
         val fragmentTag = AppPresenterManager.LOGIN_TAG
         fun newInstance(): LoginFragment = LoginFragment()
@@ -36,7 +40,6 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView 
 
     override fun preInit() {
         presenterManager = app.presenterManager
-        Log.d("reeeee", "login")
     }
 
     override fun postInit() {
@@ -64,9 +67,14 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView 
         settings.setSupportZoom(false)
         //settings.javaScriptEnabled = true //VK provides js-free page cuz safety and stuff
         settings.domStorageEnabled = true
-        settings.cacheMode = WebSettings.LOAD_NO_CACHE //Avoid cache-related issues
+        settings.cacheMode = WebSettings.LOAD_DEFAULT //Avoid cache-related issues
 
         webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                hideProgressbar()
+            }
+
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 Log.e("url", url)
                 hasUrlLoaded = true
@@ -94,11 +102,6 @@ class LoginFragment : BaseFragment<LoginView, LoginPresenter, App>(), LoginView 
 
     fun showError(errorId: Int) {
         Toast.makeText(activity, getString(errorId), Toast.LENGTH_SHORT).show()
-    }
-
-    override fun setAuthResult(result: Int) {
-        //setResult(result)
-        //finish()
     }
 
     override fun loadUrl(url: String) {

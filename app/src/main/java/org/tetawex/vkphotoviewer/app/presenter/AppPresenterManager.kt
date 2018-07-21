@@ -11,24 +11,24 @@ class AppPresenterManager(private val presenterFactory: PresenterFactory)
     override fun instantiatePresenterByTag(tag: String) {
         when (tag) {
             LOGIN_TAG -> {
-                presenterMap.put(tag, presenterFactory.createLoginPresenter())
+                presenterMap[tag] = presenterFactory.createLoginPresenter()
             }
             MAIN_TAG -> {
-                presenterMap.put(tag, presenterFactory.createMainPresenter())//TODO!
+                presenterMap[tag] = presenterFactory.createMainPresenter()//TODO!
             }
-            FRIENDS_LIST_TAG -> {
-                presenterMap.put(tag, presenterFactory.createMainPresenter())//TODO!
+            FRIEND_LIST_TAG -> {
+                presenterMap[tag] = presenterFactory.createFriendListPresenter()//TODO!
             }
-            FRIENDS_DETAIL_TAG -> {
-                presenterMap.put(tag, presenterFactory.createMainPresenter())//TODO!
+            FRIEND_DETAILS_TAG -> {
+                presenterMap[tag] = presenterFactory.createFriendDetailsPresenter()//TODO!
             }
         }
     }
 
     companion object {
-        val LOGIN_TAG = "login"
-        val MAIN_TAG = "main"
-        val FRIENDS_LIST_TAG = "friends_list"
-        val FRIENDS_DETAIL_TAG = "friends_detail"
+        const val LOGIN_TAG = "login"
+        const val MAIN_TAG = "main"
+        const val FRIEND_LIST_TAG = "friend_list"
+        const val FRIEND_DETAILS_TAG = "friend_details"
     }
 }
