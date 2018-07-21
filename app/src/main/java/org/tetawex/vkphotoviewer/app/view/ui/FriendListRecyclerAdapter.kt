@@ -26,7 +26,7 @@ class FriendListRecyclerAdapter(context: Context,
     override fun bindSingleItem(viewHolder: ViewHolder, item: FriendsListItem) {
         viewHolder.view.run {
             imageLoadManager.loadImageIntoImageView(iv_photo, bitmapTransformer, item.photoUrl)
-            tv_name.text = item.nickname
+            tv_name.text = item.fullName
             setOnClickListener { itemClickListener.invoke(item) }
         }
     }

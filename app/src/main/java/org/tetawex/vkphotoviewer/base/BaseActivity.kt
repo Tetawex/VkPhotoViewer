@@ -2,6 +2,7 @@ package org.tetawex.vkphotoviewer.base
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.view_progressbar.*
 import org.tetawex.vkphotoviewer.R
@@ -50,9 +51,6 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppComp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        preInit()
-
         setContentView(layoutId)
         setupViews()
 
@@ -68,29 +66,38 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppComp
     }
 
     override fun onStart() {
-        postInit()
         super.onStart()
+        preInit()
         if (firstAttach) {
             firstAttach = false
             _presenter!!.onFirstViewAttached()
         }
+        postInit()
     }
 
     override fun onStop() {
         super.onStop()
+        Log.e("acti", "stop")
         detachPresenter()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 
     private fun attachPresenter() {
-        try {
-            //Crashes if presenter does not match...
-            _presenter = presenterManager.getPresenter<P>(presenterTag)
-            _presenter!!.onViewAttached(this as V)
-        } catch (cce: ClassCastException) {
-            cce.printStackTrace()
-            showToast(R.string.err_presenter)
-        }
+        Log.e("acti", "attachpresenter")
+        Log.e("acti presenter is", _presenter.toString())
+        if (_presenter == null)
+            try {
+                //Crashes if presenter does not match...
+                _presenter = presenterManager.getPresenter<P>(presenterTag)
+                _presenter!!.onViewAttached(this as V)
+            } catch (cce: ClassCastException) {
+                cce.printStackTrace()
+                showToast(R.string.err_presenter)
+            }
 
     }
 

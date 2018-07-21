@@ -17,6 +17,10 @@ class PreferencesImpl(private val sharedPreferences: SharedPreferences) : Prefer
     override fun saveAuthToken(token: String): Preferences {
         if (currentEditor == null)
             currentEditor = sharedPreferences.edit()
+
+        currentEditor?.run {
+            putString(PREF_KEY_TOKEN, token)
+        }
         return this
     }
 

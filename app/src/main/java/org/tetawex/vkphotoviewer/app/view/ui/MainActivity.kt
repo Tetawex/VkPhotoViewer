@@ -1,5 +1,6 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.util.Log
@@ -35,7 +36,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
     }
 
     override fun setupViews() {
-
+        fragmentManager = supportFragmentManager!!
+        presenterManager = app.presenterManager
     }
 
     override fun postInit() {
@@ -43,8 +45,6 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
     }
 
     override fun preInit() {
-        fragmentManager = supportFragmentManager!!
-        presenterManager = app.presenterManager
     }
 
     //View methods
@@ -94,7 +94,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
         if (clearBackStack)
             clearBackStack()
 
-        val existingFragment: Fragment? = fragmentManager.findFragmentByTag(fragmentTag)
+        var existingFragment: Fragment? = fragmentManager.findFragmentByTag(fragmentTag)
         val transaction = fragmentManager.beginTransaction()
 
         //If fragment exists in backstack, put it in front
@@ -105,8 +105,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
 
         //Create it otherwise
         else {
-            val newFragment = createFragmentByTag(fragmentTag)
-            transaction.replace(R.id.fragment_placeholder, newFragment, fragmentTag)
+            existingFragment = createFragmentByTag(fragmentTag)
+            transaction.replace(R.id.fragment_placeholder, existingFragment, fragmentTag)
             if (addToBackStack)
                 transaction.addToBackStack(fragmentTag)
             //fragmentManager.popBackStack(fragmentTag, 0)
@@ -125,5 +125,13 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
             FriendDetailsFragment.fragmentTag -> FriendDetailsFragment.newInstance()
             else -> LoginFragment.newInstance()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        //Turns out it's done automatically
+        //fragmentManager.fragments.forEach { fragment ->
+        //    fragmentManager.saveFragmentInstanceState(fragment)
+        //}
     }
 }

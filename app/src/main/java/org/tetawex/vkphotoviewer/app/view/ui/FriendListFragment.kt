@@ -1,6 +1,9 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
+import android.os.Bundle
+import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_friends_list.*
@@ -20,7 +23,8 @@ import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, MainRouter, App>(), FriendListView {
 
     companion object {
-        val fragmentTag = AppPresenterManager.FRIEND_LIST_TAG
+        const val fragmentTag = AppPresenterManager.FRIEND_LIST_TAG
+        const val FRIEND_LIST_LM_PARCELABLE_TAG = "friend_list_lv_parc_tag"
         fun newInstance(): FriendListFragment = FriendListFragment()
     }
 
@@ -31,9 +35,16 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
     private val imageLoadManager: ImageLoadManager = ImageLoadManager()
 
     private lateinit var friendListRecyclerAdapter: FriendListRecyclerAdapter
+    private lateinit var friendsListLayoutManager: LinearLayoutManager
+    private lateinit var recyclerViewState: Parcelable
 
+    var counter = 0
     override fun appendList(items: List<FriendsListItem>) {
+        Log.e("tag " + counter, items[0].fullName)
+
         friendListRecyclerAdapter.appendDataWithNotify(items)
+
+        counter++
     }
 
     override fun setList(items: List<FriendsListItem>) {
@@ -50,17 +61,14 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
 
     override fun preInit() {
         presenterManager = app.presenterManager
+
+        rv_friend_list.adapter = friendListRecyclerAdapter
+        friendsListLayoutManager.onRestoreInstanceState(recyclerViewState)
+        rv_friend_list.layoutManager = friendsListLayoutManager
     }
 
     override fun postInit() {
-        friendListRecyclerAdapter = FriendListRecyclerAdapter(
-                context!!,
-                imageLoadManager,
-                { item -> presenter.onOpenFriendsDetail(item) }
-        )
 
-        rv_friend_list.adapter = friendListRecyclerAdapter
-        rv_friend_list.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun showProgressbar() {
@@ -69,6 +77,35 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
 
     override fun hideProgressbar() {
         progressbar.hide()
+    }
+
+    override fun onStop() {
+        recyclerViewState = rv_friend_list.layoutManager.onSaveInstanceState()
+        super.onStop()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        friendsListLayoutManager = LinearLayoutManager(activity)
+        recyclerViewState = friendsListLayoutManager.onSaveInstanceState()
+        friendListRecyclerAdapter = FriendListRecyclerAdapter(
+                context!!,
+                imageLoadManager,
+                { item -> presenter.onOpenFriendDetails(item) }
+        )
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(FRIEND_LIST_LM_PARCELABLE_TAG, recyclerViewState)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        savedInstanceState?.getParcelable<LinearLayoutManager.SavedState>(FRIEND_LIST_LM_PARCELABLE_TAG)?.also {
+            recyclerViewState = it
+        }
+        Log.e("fr acreated", "dddd")
     }
 
     fun showError(errorId: Int) {

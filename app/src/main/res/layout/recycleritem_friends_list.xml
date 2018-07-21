@@ -17,8 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0"
-            android:gravity="center"
-            android:textSize="24sp"
+            android:gravity="left|center"
+            android:maxWidth="256sp"
+            android:textSize="22sp"
 
             tools:text="Car Salesman" />
 

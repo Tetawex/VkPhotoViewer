@@ -3,6 +3,7 @@ package org.tetawex.vkphotoviewer.base
 import android.app.Application
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,8 +56,10 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A : Applicat
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): android.view.View? {
-        preInit()
+        Log.e("frag", "createview")
+
         val view = inflater.inflate(layoutId, container, false)
+
         if (savedInstanceState != null) {
             firstAttach = false
         }
@@ -65,33 +68,47 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A : Applicat
     }
 
     override fun onStart() {
-        attachPresenter()
         super.onStart()
+        Log.e("frag", "start")
 
-        postInit()
+        preInit()
+
+        attachPresenter()
 
         if (firstAttach) {
             firstAttach = false
             _presenter!!.onFirstViewAttached()
         }
 
+        postInit()
     }
 
     override fun onStop() {
         super.onStop()
+        Log.e("frag", "stop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("frag", "detachview")
         detachPresenter()
     }
 
 
     protected fun attachPresenter() {
-        try {
-            //Crashes if presenter does not match...
-            _presenter = presenterManager.getPresenter<P>(presenterTag)
-            _presenter!!.onViewAttached(this as V)
-        } catch (cce: ClassCastException) {
-            cce.printStackTrace()
-            showToast(R.string.err_presenter)
-        }
+        Log.e("frag", "attachpresenter")
+        Log.e("frag presenter is", _presenter.toString())
+
+        //Attach presenter if it is null
+        if (_presenter == null)
+            try {
+                //Crashes if presenter does not match...
+                _presenter = presenterManager.getPresenter<P>(presenterTag)
+                _presenter!!.onViewAttached(this as V)
+            } catch (cce: ClassCastException) {
+                cce.printStackTrace()
+                showToast(R.string.err_presenter)
+            }
 
     }
 

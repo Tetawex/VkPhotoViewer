@@ -1,18 +1,16 @@
 package org.tetawex.vkphotoviewer.app.model.repository.api
 
 import io.reactivex.Single
+import org.json.JSONObject
+import org.tetawex.vkphotoviewer.app.model.repository.AuthTokenProvider
 import org.tetawex.vkphotoviewer.app.model.repository.Repository
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsDetail
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
-import android.util.Log
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import org.json.JSONArray
-import org.tetawex.vkphotoviewer.app.model.repository.AuthTokenProvider
 import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -23,10 +21,10 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider) : Reposit
         return Single.fromCallable {
             //Fetch
             val url = URL("https://api.vk.com/method/friends.get?" +
-                    "auth_token=" + authTokenProvider.getAuthToken() +
-                    "&fields=nickname,photo_100" +
+                    "access_token=" + authTokenProvider.getAuthToken() +
+                    "&fields=fullName,photo_100" +
                     "&offset=" + offset +
-                    "&api_version=" + Config.API_VERSION +
+                    "&v=" + Config.API_VERSION +
                     "&count=" + count)
             val urlConnection = url.openConnection() as HttpURLConnection
 
@@ -37,33 +35,27 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider) : Reposit
 
             urlConnection.disconnect()
 
-            //TODO: remove logging
-            Completable
-                    .fromCallable { Log.d("vkvk", result) }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .subscribe()
-
             //Deserialize
-            val launchList = ArrayList<FriendsListItem>(count)
+            val response = JSONObject(result).getJSONObject("response")
 
-            val array = JSONArray(result)
+            val array = response.getJSONArray("items")
             val length = array.length()
+
+            val friendList: MutableList<FriendsListItem> = ArrayList(length)
+
             for (i in 0 until length) {
 
                 val jsonObject = array.getJSONObject(i)
-                val launchDate = jsonObject.getLong("launch_date_unix")
-                val details = jsonObject.getString("details")
+                val id = jsonObject.getLong("id")
+                val fullName = jsonObject.getString("first_name") + " " + jsonObject.getString("last_name")
+                val photoUrl = jsonObject.getString("photo_100")//get smaller photo
 
-                val rocketObj = jsonObject.getJSONObject("rocket")
-                val rocketName = rocketObj.getString("rocket_name")
-
-                val linksObj = jsonObject.getJSONObject("links")
-                val patchUrl = linksObj.getString("mission_patch")
-                val articleUrl = linksObj.getString("article_link")
-
+                friendList.add(FriendsListItem(
+                        id = id,
+                        fullName = fullName,
+                        photoUrl = photoUrl))
             }
-            return@fromCallable launchList
+            return@fromCallable friendList
         }
     }
 

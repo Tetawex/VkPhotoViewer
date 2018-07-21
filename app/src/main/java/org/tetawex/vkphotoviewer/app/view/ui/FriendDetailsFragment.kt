@@ -2,7 +2,7 @@ package org.tetawex.vkphotoviewer.app.view.ui
 
 import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_friends_detail.*
+import kotlinx.android.synthetic.main.fragment_friend_detail.*
 import kotlinx.android.synthetic.main.view_progressbar.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.App
