@@ -36,15 +36,11 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
 
     private lateinit var friendListRecyclerAdapter: FriendListRecyclerAdapter
     private lateinit var friendsListLayoutManager: LinearLayoutManager
-    private lateinit var recyclerViewState: Parcelable
+    private var recyclerViewState: Parcelable? = null
 
-    var counter = 0
     override fun appendList(items: List<FriendsListItem>) {
-        Log.e("tag " + counter, items[0].fullName)
-
+        Log.e("appended adapter is", friendListRecyclerAdapter.toString())
         friendListRecyclerAdapter.appendDataWithNotify(items)
-
-        counter++
     }
 
     override fun setList(items: List<FriendsListItem>) {
@@ -56,6 +52,10 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
     }
 
     override fun setupViews(view: View): View {
+        friendListRecyclerAdapter = FriendListRecyclerAdapter(
+                context!!,
+                imageLoadManager,
+                { item -> presenter.onOpenFriendDetails(item) })
         return view
     }
 
@@ -63,12 +63,19 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
         presenterManager = app.presenterManager
 
         rv_friend_list.adapter = friendListRecyclerAdapter
-        friendsListLayoutManager.onRestoreInstanceState(recyclerViewState)
+        Log.e("adapter is", friendListRecyclerAdapter.toString())
+
+        friendsListLayoutManager = LinearLayoutManager(activity)
+        if (recyclerViewState != null)
+            friendsListLayoutManager.onRestoreInstanceState(recyclerViewState)
         rv_friend_list.layoutManager = friendsListLayoutManager
     }
 
-    override fun postInit() {
+    override fun openFriendDetails(id: Long, fullName: String, photoPreviewUrl: String) {
+        router.navigateToFriendDetailsScreen(id, fullName, photoPreviewUrl)
+    }
 
+    override fun postInit() {
     }
 
     override fun showProgressbar() {
@@ -79,33 +86,29 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
         progressbar.hide()
     }
 
-    override fun onStop() {
-        recyclerViewState = rv_friend_list.layoutManager.onSaveInstanceState()
-        super.onStop()
+    override fun onResume() {
+        super.onResume()
+        friendListRecyclerAdapter.notifyDataSetChanged()
+        Log.e("the actual adapter is", rv_friend_list.adapter.toString())
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        friendsListLayoutManager = LinearLayoutManager(activity)
-        recyclerViewState = friendsListLayoutManager.onSaveInstanceState()
-        friendListRecyclerAdapter = FriendListRecyclerAdapter(
-                context!!,
-                imageLoadManager,
-                { item -> presenter.onOpenFriendDetails(item) }
-        )
+    override fun onStop() {
+        super.onStop()
+        recyclerViewState = rv_friend_list.layoutManager.onSaveInstanceState()
     }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelable(FRIEND_LIST_LM_PARCELABLE_TAG, recyclerViewState)
+        outState.putParcelable(FRIEND_LIST_LM_PARCELABLE_TAG, friendsListLayoutManager.onSaveInstanceState())
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
         savedInstanceState?.getParcelable<LinearLayoutManager.SavedState>(FRIEND_LIST_LM_PARCELABLE_TAG)?.also {
+            Log.e("rv state restored", "dddd")
             recyclerViewState = it
         }
-        Log.e("fr acreated", "dddd")
     }
 
     fun showError(errorId: Int) {

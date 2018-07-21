@@ -2,6 +2,7 @@ package org.tetawex.vkphotoviewer.base
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,7 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(protected va
     }
 
     fun appendDataWithNotify(data: List<T>) {
+        Log.e("appended in adapter ", "" + data.size)
         appendData(data)
         notifyDataSetChanged()
     }

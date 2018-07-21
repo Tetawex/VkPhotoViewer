@@ -15,7 +15,7 @@ class FriendListPresenter(val friendListInteractor: FriendListInteractor,
         BasePresenter<FriendListView>(viewState) {
     override fun onFirstViewAttached() {
         friendListInteractor
-                .getFriendsList(0, 10)
+                .getFriendsList(0, 100)
                 .applySchedulers()
                 .subscribe(
                         { list ->
@@ -26,6 +26,6 @@ class FriendListPresenter(val friendListInteractor: FriendListInteractor,
     }
 
     fun onOpenFriendDetails(friendsListItem: FriendsListItem) {
-
+        viewRelay.openFriendDetails(friendsListItem.id, friendsListItem.fullName, friendsListItem.photoUrl)
     }
 }

@@ -14,6 +14,7 @@ import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.base.BaseActivity
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
+import java.util.*
 
 
 /**
@@ -26,6 +27,8 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
     private lateinit var fragmentManager: FragmentManager
 
     private var currentFragmentTag = ""
+
+    private val backStackQueue: Queue<String> = LinkedList()
 
     override fun showProgressbar() {
         progressbar.show()
@@ -66,8 +69,12 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
     }
 
     override fun goBack() {
-        if (fragmentManager.backStackEntryCount > 1)
+        fragmentManager.fragments.forEach { fragment ->
+            Log.e("bs entry", "is " + fragment.toString())
+        }
+        if (fragmentManager.backStackEntryCount > 1) {
             fragmentManager.popBackStack()
+        }
     }
 
     override fun navigateToFriendListScreen() {
@@ -75,8 +82,12 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
         replaceFragment(FriendListFragment.fragmentTag)
     }
 
-    override fun navigateToFriendDetailsScreen() {
+    override fun navigateToFriendDetailsScreen(id: Long, name: String, photoPreviewUrl: String) {
         Log.d("nav", "detail")
+        val bundle = Bundle()
+        bundle.putInt(FriendDetailsFragment.BUNDLE_TAG_ID, id.toInt())
+        bundle.putString(FriendDetailsFragment.BUNDLE_TAG_FULL_NAME, name)
+        bundle.putString(FriendDetailsFragment.BUNDLE_TAG_PHOTO_PREVIEW_URL, photoPreviewUrl)
         replaceFragment(FriendDetailsFragment.fragmentTag)
     }
 
@@ -89,6 +100,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
     }
 
     private fun replaceFragment(fragmentTag: String,
+                                bundle: Bundle? = null,
                                 addToBackStack: Boolean = true,
                                 clearBackStack: Boolean = false) {
         if (clearBackStack)
@@ -107,12 +119,14 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Mai
         else {
             existingFragment = createFragmentByTag(fragmentTag)
             transaction.replace(R.id.fragment_placeholder, existingFragment, fragmentTag)
-            if (addToBackStack)
-                transaction.addToBackStack(fragmentTag)
             //fragmentManager.popBackStack(fragmentTag, 0)
         }
 
+        if (addToBackStack)
+            transaction.addToBackStack(fragmentTag)
+
         currentFragmentTag = fragmentTag
+        existingFragment.arguments = bundle
 
         //Commit the transaction
         transaction.commit()

@@ -7,4 +7,5 @@ import org.tetawex.vkphotoviewer.base.BaseView
  */
 interface FriendDetailsView : BaseView {
     fun loadPhoto(url: String)
+    fun loadDefaultData()
 }

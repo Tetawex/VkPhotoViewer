@@ -6,4 +6,10 @@
     <string name="one_account_allowed">Невозможно добавить более одного аккаунта</string>
     <string name="account_type">org.tetawex.vkphotoviewer</string>
     <string name="title_friends">Список друзей</string>
+
+    <string name="tools_username">Car Salesman</string>
+    <string name="tools_lorem_ipsum_medium">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+
 </resources>

@@ -1,7 +1,7 @@
 package org.tetawex.vkphotoviewer.base
 
-import java.util.LinkedList
-import java.util.Queue
+import android.util.Log
+import java.util.*
 
 /**
  * Created by Tetawex on 15.02.2018.
@@ -16,6 +16,7 @@ abstract class ViewState<V : BaseView> : BaseView {
     }
 
     fun restoreState(view: V) {
+        Log.e("viewstate", "restoring vs from entries count " + commandQueue.size)
         for (command in commandQueue) {
             command.invoke(view)
         }

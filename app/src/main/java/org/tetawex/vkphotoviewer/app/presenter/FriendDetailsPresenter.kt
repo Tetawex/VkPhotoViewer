@@ -12,5 +12,6 @@ class FriendDetailsPresenter(private val friendDetailsInteractor: FriendDetailsI
                              viewState: FriendDetailsViewState) :
         BasePresenter<FriendDetailsView>(viewState) {
     override fun onFirstViewAttached() {
+        viewRelay.loadDefaultData()
     }
 }

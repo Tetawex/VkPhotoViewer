@@ -1,7 +1,7 @@
 package org.tetawex.vkphotoviewer.app.model.repository
 
 import io.reactivex.Single
-import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsDetail
+import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendDetail
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 
 /**
@@ -9,5 +9,5 @@ import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
  */
 interface Repository {
     fun getFriendsFeed(offset: Int, count: Int): Single<List<FriendsListItem>>
-    fun getFriendDetailsById(id: Long): Single<FriendsDetail>
+    fun getFriendDetailsById(id: Long): Single<FriendDetail>
 }

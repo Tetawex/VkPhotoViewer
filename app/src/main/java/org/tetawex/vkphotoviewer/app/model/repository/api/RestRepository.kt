@@ -1,10 +1,11 @@
 package org.tetawex.vkphotoviewer.app.model.repository.api
 
+import android.util.Log
 import io.reactivex.Single
 import org.json.JSONObject
 import org.tetawex.vkphotoviewer.app.model.repository.AuthTokenProvider
 import org.tetawex.vkphotoviewer.app.model.repository.Repository
-import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsDetail
+import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendDetail
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 import java.io.BufferedInputStream
 import java.net.HttpURLConnection
@@ -17,23 +18,28 @@ import kotlin.collections.ArrayList
  * Created by tetawex on 17.07.2018.
  */
 class RestRepository(private val authTokenProvider: AuthTokenProvider) : Repository {
+    private fun performWebRequest(url: URL): String {
+        val urlConnection = url.openConnection() as HttpURLConnection
+        val bufferedInputStream = BufferedInputStream(urlConnection.inputStream)
+        val scanner = Scanner(bufferedInputStream).useDelimiter("\\A")
+
+        urlConnection.disconnect()
+        return if (scanner.hasNext()) scanner.next() else ""
+    }
+
     override fun getFriendsFeed(offset: Int, count: Int): Single<List<FriendsListItem>> {
         return Single.fromCallable {
             //Fetch
-            val url = URL("https://api.vk.com/method/friends.get?" +
-                    "access_token=" + authTokenProvider.getAuthToken() +
-                    "&fields=fullName,photo_100" +
-                    "&offset=" + offset +
-                    "&v=" + Config.API_VERSION +
-                    "&count=" + count)
-            val urlConnection = url.openConnection() as HttpURLConnection
 
-            val bufferedInputStream = BufferedInputStream(urlConnection.inputStream)
+            val result = performWebRequest(
+                    URL("https://api.vk.com/method/friends.get?" +
+                            "access_token=" + authTokenProvider.getAuthToken() +
+                            "&fields=fullName,photo_100" +
+                            "&offset=" + offset +
+                            "&v=" + Config.API_VERSION +
+                            "&count=" + count))
 
-            val scanner = Scanner(bufferedInputStream).useDelimiter("\\A")
-            val result = if (scanner.hasNext()) scanner.next() else ""
-
-            urlConnection.disconnect()
+            //Log.e("result",result)
 
             //Deserialize
             val response = JSONObject(result).getJSONObject("response")
@@ -59,8 +65,15 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider) : Reposit
         }
     }
 
-    override fun getFriendDetailsById(id: Long): Single<FriendsDetail> {
-        return Single.just(FriendsDetail("", "", ""))
+    override fun getFriendDetailsById(id: Long): Single<FriendDetail> {
+        val result = performWebRequest(
+                URL("https://api.vk.com/method/users.get?" +
+                        "access_token=" + authTokenProvider.getAuthToken() +
+                        "&fields=fullName, about, photo_100" +
+                        "&v=" + Config.API_VERSION +
+                        "&count=" + 1))
+        Log.e("result", result)
+        return Single.just(FriendDetail("", "", ""))
     }
 
 }
