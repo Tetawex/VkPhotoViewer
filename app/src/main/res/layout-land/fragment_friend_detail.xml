@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.8"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@color/colorNotLoadedBackground"
             android:transitionName="tr_fl_fd"
             tools:src="@drawable/placeholder_avatar_round" />
 
