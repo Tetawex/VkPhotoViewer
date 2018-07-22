@@ -11,13 +11,4 @@ class AuthTokenUseCase(val repository: Repository,
             preferences.saveAuthToken(token).commit()
         }
     }
-    /*override fun login(username: String, password: String): Completable {
-        return repository
-                .getToken(username, password)
-                .compose(RxUtils.applySingleSchedulers())
-                .doOnSuccess({ token ->
-                    userAuthManager.login(username, token)
-                })
-                .toCompletable()
-    }*/
 }
