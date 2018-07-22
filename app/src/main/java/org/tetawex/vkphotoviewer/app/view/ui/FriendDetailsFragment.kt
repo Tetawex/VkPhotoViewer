@@ -14,9 +14,9 @@ import org.tetawex.vkphotoviewer.app.view.abs.FriendDetailsView
 import org.tetawex.vkphotoviewer.app.view.abs.ImmersiveView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.base.RoutedFragment
-import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer
-import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformers
-import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformers
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.ImageLoadManager
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 

@@ -9,9 +9,9 @@ import kotlinx.android.synthetic.main.recycleritem_friends_list.view.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 import org.tetawex.vkphotoviewer.base.BaseRecyclerAdapter
-import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer
-import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformers
-import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformers
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.ImageLoadManager
 
 /**
  * Created by tetawex on 20.07.2018.

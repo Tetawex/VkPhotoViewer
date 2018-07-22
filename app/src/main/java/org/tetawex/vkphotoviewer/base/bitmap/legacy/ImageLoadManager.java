@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.base.bitmap;
+package org.tetawex.vkphotoviewer.base.bitmap.legacy;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;

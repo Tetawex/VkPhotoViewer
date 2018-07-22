@@ -17,7 +17,7 @@ import org.tetawex.vkphotoviewer.app.presenter.FriendListPresenter
 import org.tetawex.vkphotoviewer.app.view.abs.FriendListView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.base.RoutedFragment
-import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.ImageLoadManager
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
