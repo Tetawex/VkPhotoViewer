@@ -1,5 +1,6 @@
 package org.tetawex.vkphotoviewer.app.presenter
 
+import io.reactivex.disposables.Disposables
 import org.tetawex.vkphotoviewer.app.model.interactor.FriendListInteractor
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 import org.tetawex.vkphotoviewer.app.view.abs.FriendListView
@@ -13,9 +14,20 @@ import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
 class FriendListPresenter(val friendListInteractor: FriendListInteractor,
                           viewState: FriendListViewState) :
         BasePresenter<FriendListView>(viewState) {
+    var friendListDisposable = Disposables.empty()
     override fun onFirstViewAttached() {
-        viewRelay.showProgressbar()
-        friendListInteractor
+        onRefreshList(true)
+    }
+
+    fun onOpenFriendDetails(friendsListItem: FriendsListItem) {
+        viewRelay.openFriendDetails(friendsListItem.id, friendsListItem.fullName, friendsListItem.photoUrl)
+    }
+
+    fun onRefreshList(showProgressBar: Boolean) {
+        if (showProgressBar)
+            viewRelay.showProgressbar()
+        friendListDisposable.dispose()
+        friendListDisposable = friendListInteractor
                 .getFriendsList(0, 10000)
                 .applySchedulers()
                 .doFinally {
@@ -27,9 +39,5 @@ class FriendListPresenter(val friendListInteractor: FriendListInteractor,
                         },
                         { t -> viewRelay.showError(t) }
                 )
-    }
-
-    fun onOpenFriendDetails(friendsListItem: FriendsListItem) {
-        viewRelay.openFriendDetails(friendsListItem.id, friendsListItem.fullName, friendsListItem.photoUrl)
     }
 }

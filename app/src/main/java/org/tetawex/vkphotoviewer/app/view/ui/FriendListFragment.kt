@@ -61,7 +61,15 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
         friendListRecyclerAdapter = FriendListRecyclerAdapter(
                 context!!,
                 imageLoadManager,
-                { item, position -> presenter.onOpenFriendDetails(item) })
+                { item, position ->
+                    if (!swipe_refresh.isRefreshing) {
+                        //without this check it is possible
+                        //to run into npe in hideProgressBar() by repeatedly clicking recyclerView during swipe refresh
+                        //If you are reading this please tell (via github or sth) me a way to resolve this,
+                        //I have tried everything, no idea
+                        presenter.onOpenFriendDetails(item)
+                    }
+                })
         return view
     }
 
@@ -75,6 +83,11 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
         if (recyclerViewState != null)
             friendsListLayoutManager.onRestoreInstanceState(recyclerViewState)
         rv_friend_list.layoutManager = friendsListLayoutManager
+
+
+        swipe_refresh.setOnRefreshListener {
+            presenter.onRefreshList(false)
+        }
     }
 
     override fun openFriendDetails(id: Long, fullName: String, photoPreviewUrl: String) {
@@ -96,12 +109,11 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
 
     override fun hideProgressbar() {
         progressbar.hide()
+        swipe_refresh.isRefreshing = false
     }
 
     override fun onResume() {
-        friendListRecyclerAdapter.notifyDataSetChanged()
         super.onResume()
-        friendListRecyclerAdapter.notifyDataSetChanged()
         Log.e("the actual adapter is", rv_friend_list.adapter.toString())
     }
 

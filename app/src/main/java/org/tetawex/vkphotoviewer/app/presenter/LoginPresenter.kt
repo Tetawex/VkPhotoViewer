@@ -20,6 +20,10 @@ class LoginPresenter(private val userCodeInteractor: AuthTokenInteractor,
         postUrlInView()
     }
 
+    fun onPageRefreshed(){
+        postUrlInView()
+    }
+
     fun onTokenReceived(token: String, userId: String) {
         viewRelay.showProgressbar()
         userCodeInteractor.saveAccessToken(token, userId)
@@ -36,6 +40,8 @@ class LoginPresenter(private val userCodeInteractor: AuthTokenInteractor,
     fun urlLoaded() {
         viewRelay.hideProgressbar()
     }
+
+
 
     private fun postUrlInView() {
         viewRelay.showProgressbar()

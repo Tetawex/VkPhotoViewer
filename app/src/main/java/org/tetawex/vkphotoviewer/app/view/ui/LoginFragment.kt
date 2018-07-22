@@ -43,6 +43,9 @@ class LoginFragment : RoutedFragment<LoginView, LoginPresenter, MainRouter, App>
 
     override fun preInit() {
         presenterManager = app.presenterManager
+        swipe_refresh.setOnRefreshListener {
+            presenter.onPageRefreshed()
+        }
     }
 
     override fun postInit() {
@@ -70,12 +73,12 @@ class LoginFragment : RoutedFragment<LoginView, LoginPresenter, MainRouter, App>
         settings.setSupportZoom(false)
         //settings.javaScriptEnabled = true //VK provides js-free page cuz safety and stuff
         settings.domStorageEnabled = true
-        settings.cacheMode = WebSettings.LOAD_DEFAULT //Avoid cache-related issues
+        settings.cacheMode = WebSettings.LOAD_NO_CACHE //Avoid cache-related issues
 
         webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
-                hideProgressbar()
+                presenter.urlLoaded()
             }
 
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
@@ -101,6 +104,7 @@ class LoginFragment : RoutedFragment<LoginView, LoginPresenter, MainRouter, App>
 
     override fun hideProgressbar() {
         progressbar.hide()
+        swipe_refresh.isRefreshing = false
     }
 
     fun showError(errorId: Int) {
