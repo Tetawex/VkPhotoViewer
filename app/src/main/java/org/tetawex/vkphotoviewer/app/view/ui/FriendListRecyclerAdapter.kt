@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.recycleritem_friends_list.view.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 import org.tetawex.vkphotoviewer.base.BaseRecyclerAdapter
+import org.tetawex.vkphotoviewer.base.bitmap.ImageLoader
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformers
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.ImageLoadManager
@@ -28,7 +29,7 @@ class FriendListRecyclerAdapter(context: Context,
     override fun bindSingleItem(viewHolder: ViewHolder, item: FriendsListItem, position: Int) {
         viewHolder.view.run {
             iv_photo.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.shape_circle))
-            imageLoadManager.loadImageIntoImageView(iv_photo, bitmapTransformer, item.photoUrl)
+            ImageLoader.loadImageIntoView(iv_photo, item.photoUrl, BitmapTransformers.CIRCULAR)
             tv_name.text = item.fullName
             setOnClickListener { itemClickListener.invoke(item, position) }
 

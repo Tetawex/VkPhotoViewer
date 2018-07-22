@@ -16,7 +16,7 @@ class FriendListPresenter(val friendListInteractor: FriendListInteractor,
     override fun onFirstViewAttached() {
         viewRelay.showProgressbar()
         friendListInteractor
-                .getFriendsList(0, 100)
+                .getFriendsList(0, 10000)
                 .applySchedulers()
                 .doFinally {
                     viewRelay.hideProgressbar()

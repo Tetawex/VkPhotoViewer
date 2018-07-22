@@ -14,6 +14,7 @@ import org.tetawex.vkphotoviewer.app.view.abs.FriendDetailsView
 import org.tetawex.vkphotoviewer.app.view.abs.ImmersiveView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.base.RoutedFragment
+import org.tetawex.vkphotoviewer.base.bitmap.ImageLoader
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformers
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.ImageLoadManager
@@ -23,14 +24,7 @@ import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPresenter, MainRouter, App>(), FriendDetailsView {
     override fun loadDefaultData() {
-        Log.e("args are ", arguments.toString())
-        arguments?.also {
-            tv_full_name.text = it.getString(BUNDLE_TAG_FULL_NAME, "")
-            imageLoadManager.loadImageIntoImageView(
-                    iv_photo,
-                    bitmapTransformer,
-                    it.getString(BUNDLE_TAG_PHOTO_PREVIEW_URL, ""))
-        }
+
     }
 
     companion object {
@@ -51,14 +45,17 @@ class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPre
     private var userId = 0L
 
     override fun loadPhoto(url: String) {
-        imageLoadManager.loadImageIntoImageView(
-                iv_photo,
-                bitmapTransformer,
-                url)
+        //TODO:Remove
     }
 
     override fun onStart() {
-        arguments?.also { userId = it.getInt(BUNDLE_TAG_ID, 0).toLong() }
+        arguments?.also {
+            userId = it.getInt(BUNDLE_TAG_ID, 0).toLong()
+            tv_full_name.text = it.getString(BUNDLE_TAG_FULL_NAME, "")
+            ImageLoader.loadImageIntoView(
+                    iv_photo,
+                    it.getString(BUNDLE_TAG_PHOTO_PREVIEW_URL, ""))
+        }
         ViewCompat.setTransitionName(iv_photo, TransitionNames.TRANSITION_FRIEND_LIST_FRIEND_DETAILS + userId)
         super.onStart()
         setImmersiveMode(true)
