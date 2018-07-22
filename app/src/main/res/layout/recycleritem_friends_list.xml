@@ -35,7 +35,7 @@
             android:layout_weight="0"
             android:src="@drawable/shape_circle"
 
-            tools:src="@drawable/placeholder_avatar" />
+            tools:src="@drawable/placeholder_avatar_round" />
     </LinearLayout>
 
     <View

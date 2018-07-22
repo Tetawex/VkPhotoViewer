@@ -25,7 +25,7 @@
         android:layout_weight="0.8"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"
-        tools:src="@drawable/placeholder_avatar"/>
+        tools:src="@drawable/placeholder_avatar_round"/>
 
     <TextView
         android:id="@+id/tv_about"

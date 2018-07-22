@@ -24,7 +24,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background"
             android:transitionName="tr_fl_fd"
-            tools:src="@drawable/placeholder_avatar" />
+            tools:src="@drawable/placeholder_avatar_round" />
 
         <Space
             android:layout_width="0dp"
