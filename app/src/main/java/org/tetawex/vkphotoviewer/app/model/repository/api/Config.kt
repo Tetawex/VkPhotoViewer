@@ -14,6 +14,7 @@ object Config {
     //val MASK_CHAT = 4096
     //val MASK_WALL = 8192
     val MASK_FRIENDS = 2
+    val MASK_OFFLINE = 65536
 
-    val MASK_FULL = MASK_FRIENDS
+    val MASK_FULL = MASK_FRIENDS+ MASK_OFFLINE
 }

@@ -10,6 +10,7 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 
 //Got this from StackOverflow and heavily modified
+@Deprecated
 public class AsyncImageLoader extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> imageViewReference;
     private BitmapTransformer bitmapTransformer;

@@ -21,6 +21,9 @@ import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
 class LoginFragment : RoutedFragment<LoginView, LoginPresenter, MainRouter, App>(), LoginView {
+    override fun onGoneBackFromThisScreen() {
+    }
+
     override fun finishLogin() {
         router.navigateToFriendListScreen()
     }

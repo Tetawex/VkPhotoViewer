@@ -1,6 +1,8 @@
-package org.tetawex.vkphotoviewer.base.bitmap.legacy;
+package org.tetawex.vkphotoviewer.base.bitmap;
 
 import android.graphics.Bitmap;
+
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer;
 
 /**
  * Created by tetawex on 27.02.2018.

@@ -23,6 +23,8 @@ import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
 class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, MainRouter, App>(), FriendListView {
+    override fun onGoneBackFromThisScreen() {
+    }
 
     companion object {
         const val fragmentTag = AppPresenterManager.FRIEND_LIST_TAG

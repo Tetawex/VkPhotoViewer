@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.base.bitmap.legacy;
+package org.tetawex.vkphotoviewer.base.bitmap;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+
+import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer;
 
 /**
  * Created by tetawex on 27.02.2018.

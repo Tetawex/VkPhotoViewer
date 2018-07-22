@@ -17,6 +17,7 @@ import org.tetawex.vkphotoviewer.app.view.abs.ImmersiveView
 import org.tetawex.vkphotoviewer.app.view.abs.MainView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.base.BaseActivity
+import org.tetawex.vkphotoviewer.base.RoutedFragment
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 import java.util.*
@@ -99,11 +100,11 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Imm
     }
 
     override fun goBack() {
-        fragmentManager.fragments.forEach { fragment ->
-            Log.e("bs entry", "is " + fragment.toString())
-        }
         if (fragmentManager.backStackEntryCount > 1) {
             fragmentManager.popBackStack()
+            fragmentManager.findFragmentByTag(currentFragmentTag)?.also {
+                (it as? RoutedFragment<*, *, *, *>)?.onGoneBackFromThisScreen()
+            }
         }
     }
 
@@ -141,7 +142,7 @@ class MainActivity : BaseActivity<MainView, MainPresenter, App>(), MainView, Imm
         if (clearBackStack)
             clearBackStack()
 
-        var currentFragment: Fragment? = fragmentManager.findFragmentByTag(currentFragmentTag)
+        val currentFragment: Fragment? = fragmentManager.findFragmentByTag(currentFragmentTag)
         var newFragment: Fragment? = fragmentManager.findFragmentByTag(fragmentTag)
         val transaction = fragmentManager.beginTransaction()
 

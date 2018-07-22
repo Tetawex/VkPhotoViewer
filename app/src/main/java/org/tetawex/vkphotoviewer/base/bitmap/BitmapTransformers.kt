@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.base.bitmap.legacy
+package org.tetawex.vkphotoviewer.base.bitmap
 
 /**
  * Created by tetawex on 20.07.2018.

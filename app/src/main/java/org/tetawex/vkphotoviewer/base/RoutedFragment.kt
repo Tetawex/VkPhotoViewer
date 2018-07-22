@@ -11,4 +11,6 @@ abstract class RoutedFragment<V : BaseView, P : BasePresenter<V>, R : Router, A 
                 throw ClassCastException("Activity does not implement the declared router interface").also { it.printStackTrace() }
             }
         }
+    //Called when router performs goBack() while
+    abstract fun onGoneBackFromThisScreen()
 }

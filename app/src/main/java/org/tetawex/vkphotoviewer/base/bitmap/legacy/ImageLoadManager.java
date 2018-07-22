@@ -11,6 +11,7 @@ import java.util.Map;
  * Created by tetawex on 27.02.2018.
  * Cancels obsolete downloads to reduce latency
  */
+@Deprecated
 public class ImageLoadManager {
     private Map<String, AsyncImageLoader> activeLoaders;
     private LruCache<String, Bitmap> bitmapCache;

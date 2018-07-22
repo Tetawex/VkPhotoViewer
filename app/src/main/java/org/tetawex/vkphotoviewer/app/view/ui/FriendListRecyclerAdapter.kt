@@ -11,7 +11,7 @@ import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 import org.tetawex.vkphotoviewer.base.BaseRecyclerAdapter
 import org.tetawex.vkphotoviewer.base.bitmap.ImageLoader
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer
-import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformers
+import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformers
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.ImageLoadManager
 
 /**

@@ -1,5 +1,6 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
+import android.os.Bundle
 import android.support.v4.view.ViewCompat
 import android.util.Log
 import android.view.View
@@ -8,23 +9,28 @@ import kotlinx.android.synthetic.main.fragment_friend_detail.*
 import kotlinx.android.synthetic.main.view_progressbar.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.App
+import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendDetails
 import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
 import org.tetawex.vkphotoviewer.app.presenter.FriendDetailsPresenter
 import org.tetawex.vkphotoviewer.app.view.abs.FriendDetailsView
 import org.tetawex.vkphotoviewer.app.view.abs.ImmersiveView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.base.RoutedFragment
+import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformers
 import org.tetawex.vkphotoviewer.base.bitmap.ImageLoader
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer
-import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformers
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.ImageLoadManager
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 
 class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPresenter, MainRouter, App>(), FriendDetailsView {
-    override fun loadDefaultData() {
-
+    override fun onGoneBackFromThisScreen() {
+        Log.e("dispose", "on back")
+        //A window like this one should either be disposable or have a unique presenter tag
+        //But the mvp framework currently does not support tagging
+        //So...
+        dispose()
     }
 
     companion object {
@@ -43,22 +49,20 @@ class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPre
     private val bitmapTransformer: BitmapTransformer = BitmapTransformers.DEFAULT
 
     private var userId = 0L
+    private var fullName = ""
+    private var imageUrl = ""
 
-    override fun loadPhoto(url: String) {
-        //TODO:Remove
-    }
 
     override fun onStart() {
         arguments?.also {
             userId = it.getInt(BUNDLE_TAG_ID, 0).toLong()
             tv_full_name.text = it.getString(BUNDLE_TAG_FULL_NAME, "")
-            ImageLoader.loadImageIntoView(
-                    iv_photo,
-                    it.getString(BUNDLE_TAG_PHOTO_PREVIEW_URL, ""))
         }
-        ViewCompat.setTransitionName(iv_photo, TransitionNames.TRANSITION_FRIEND_LIST_FRIEND_DETAILS + userId)
+        if (userId != 0L)
+            ViewCompat.setTransitionName(iv_photo, TransitionNames.TRANSITION_FRIEND_LIST_FRIEND_DETAILS + userId)
+         setImmersiveMode(true)
         super.onStart()
-        setImmersiveMode(true)
+
     }
 
     override fun onStop() {
@@ -71,12 +75,39 @@ class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPre
             (activity as ImmersiveView).setUseImmersiveMode(enabled)
     }
 
+    override fun setDetails(details: FriendDetails) {
+        //Make empty to avoid double-loading
+        imageUrl = details.photoUrl
+        ImageLoader.loadImageIntoView(iv_photo, details.photoUrl)
+        if (details.about.isNotEmpty())
+            tv_about.text = details.about
+        else
+            tv_about.text = getString(R.string.user_about_empty)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.also {
+        imageUrl = it.getString(BUNDLE_TAG_PHOTO_PREVIEW_URL, "")
+        }
+    }
+
     override fun setupViews(view: View): View {
         return view
     }
 
     override fun preInit() {
         presenterManager = app.presenterManager
+        //Yes it's a band-aid as it violates mvp dumb-view rule, the variable should be assigned
+        // via factory instead of being set by the view
+        if (userId != 0L)
+            presenter.userId = userId
+
+        //It gets cancelled when presenter comes online
+        if (imageUrl != "")
+            ImageLoader.loadImageIntoView(
+                    iv_photo,
+                    imageUrl)
     }
 
     override fun postInit() {
@@ -97,8 +128,6 @@ class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPre
     override fun onDestroy() {
         super.onDestroy()
         imageLoadManager.clear()
-        //A window like this one should either be disposable or have a unique presenter tag
-        dispose()
     }
 }
 

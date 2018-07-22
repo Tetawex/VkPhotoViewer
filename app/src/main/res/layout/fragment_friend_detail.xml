@@ -21,7 +21,7 @@
         android:transitionName="tr_fl_fd"
         android:id="@+id/iv_photo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="0.8"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background"

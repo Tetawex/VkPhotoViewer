@@ -10,13 +10,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer
-import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformers
 import java.lang.ref.WeakReference
 import java.net.URL
 
 //TODO: refactor to use Builder pattern to include more features like error placeholder drawables and stuff
 object ImageLoader {
-    private const val CACHE_SIZE = 64
+    private const val CACHE_SIZE = 32
 
     private val activeLoaders: MutableMap<String, Disposable> = HashMap()
 
