@@ -7,8 +7,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 
-import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer;
-
 /**
  * Created by tetawex on 27.02.2018.
  */

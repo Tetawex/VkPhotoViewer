@@ -1,7 +1,5 @@
 package org.tetawex.vkphotoviewer.base
 
-import android.util.Log
-
 /**
  * Created by Tetawex on 15.02.2018.
  */

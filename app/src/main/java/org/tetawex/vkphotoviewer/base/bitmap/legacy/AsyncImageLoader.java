@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
+import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URL;
@@ -46,7 +48,7 @@ public class AsyncImageLoader extends AsyncTask<String, Void, Bitmap> {
             Bitmap bitmap = BitmapFactory
                     .decodeStream(url.openConnection().getInputStream(), null, options);
             return bitmapTransformer.transform(bitmap);
-        } catch (IOException|OutOfMemoryError err) {
+        } catch (IOException | OutOfMemoryError err) {
             err.printStackTrace();
             return null;
         }

@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
+import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer;
+
 import java.util.HashMap;
 import java.util.Map;
 

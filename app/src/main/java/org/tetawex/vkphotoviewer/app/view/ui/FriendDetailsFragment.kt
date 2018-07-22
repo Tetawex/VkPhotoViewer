@@ -16,9 +16,9 @@ import org.tetawex.vkphotoviewer.app.view.abs.FriendDetailsView
 import org.tetawex.vkphotoviewer.app.view.abs.ImmersiveView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.base.RoutedFragment
+import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformers
 import org.tetawex.vkphotoviewer.base.bitmap.ImageLoader
-import org.tetawex.vkphotoviewer.base.bitmap.legacy.BitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.legacy.ImageLoadManager
 import org.tetawex.vkphotoviewer.base.util.viewextensions.hide
 import org.tetawex.vkphotoviewer.base.util.viewextensions.show
@@ -60,7 +60,7 @@ class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPre
         }
         if (userId != 0L)
             ViewCompat.setTransitionName(iv_photo, TransitionNames.TRANSITION_FRIEND_LIST_FRIEND_DETAILS + userId)
-         setImmersiveMode(true)
+        setImmersiveMode(true)
         super.onStart()
 
     }
@@ -88,7 +88,7 @@ class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPre
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.also {
-        imageUrl = it.getString(BUNDLE_TAG_PHOTO_PREVIEW_URL, "")
+            imageUrl = it.getString(BUNDLE_TAG_PHOTO_PREVIEW_URL, "")
         }
     }
 

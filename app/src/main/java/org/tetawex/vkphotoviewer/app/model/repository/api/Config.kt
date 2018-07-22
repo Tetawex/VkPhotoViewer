@@ -16,5 +16,5 @@ object Config {
     val MASK_FRIENDS = 2
     val MASK_OFFLINE = 65536
 
-    val MASK_FULL = MASK_FRIENDS+ MASK_OFFLINE
+    val MASK_FULL = MASK_FRIENDS + MASK_OFFLINE
 }

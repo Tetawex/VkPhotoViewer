@@ -1,9 +1,9 @@
 package org.tetawex.vkphotoviewer.base.oauth2.account_manager_discarded
 
-import android.content.Context
-import android.os.Bundle
 import android.accounts.*
+import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 
 
 /**

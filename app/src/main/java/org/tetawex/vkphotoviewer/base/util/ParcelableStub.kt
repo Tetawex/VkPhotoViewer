@@ -3,7 +3,7 @@ package org.tetawex.vkphotoviewer.base.util
 import android.os.Parcel
 import android.os.Parcelable
 
-class ParcelableStub() :Parcelable {
+class ParcelableStub() : Parcelable {
     constructor(parcel: Parcel) : this() {
     }
 

@@ -1,7 +1,6 @@
 package org.tetawex.vkphotoviewer.base
 
-import org.tetawex.vkphotoviewer.base.BasePresenter
-import java.util.HashMap
+import java.util.*
 
 /**
  * Created by tetawex on 26.02.2018.
