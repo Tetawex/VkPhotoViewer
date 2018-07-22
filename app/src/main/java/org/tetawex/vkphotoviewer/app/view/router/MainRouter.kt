@@ -1,5 +1,6 @@
 package org.tetawex.vkphotoviewer.app.view.router
 
+import android.view.View
 import org.tetawex.vkphotoviewer.base.Router
 
 /**
@@ -8,5 +9,5 @@ import org.tetawex.vkphotoviewer.base.Router
 interface MainRouter : Router {
     fun navigateToLoginScreen()
     fun navigateToFriendListScreen()
-    fun navigateToFriendDetailsScreen(id:Long, name:String, photoPreviewUrl:String)
+    fun navigateToFriendDetailsScreen(id: Long, name: String, photoPreviewUrl: String, transitionViews: List<View>)
 }

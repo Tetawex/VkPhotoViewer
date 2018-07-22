@@ -1,12 +1,14 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import kotlinx.android.synthetic.main.recycleritem_friends_list.view.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 import org.tetawex.vkphotoviewer.base.BaseRecyclerAdapter
-import kotlinx.android.synthetic.main.recycleritem_friends_list.view.*
 import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer
 import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformers
 import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
@@ -16,18 +18,24 @@ import org.tetawex.vkphotoviewer.base.bitmap.ImageLoadManager
  */
 class FriendListRecyclerAdapter(context: Context,
                                 private val imageLoadManager: ImageLoadManager,
-                                val itemClickListener: (FriendsListItem) -> Unit) :
+                                val itemClickListener: (FriendsListItem, Int) -> Unit) :
         BaseRecyclerAdapter<FriendsListItem, FriendListRecyclerAdapter.ViewHolder>(context) {
 
     private val bitmapTransformer: BitmapTransformer = BitmapTransformers.CIRCULAR
 
     override val layoutId: Int = R.layout.recycleritem_friends_list
 
-    override fun bindSingleItem(viewHolder: ViewHolder, item: FriendsListItem) {
+    override fun bindSingleItem(viewHolder: ViewHolder, item: FriendsListItem, position: Int) {
         viewHolder.view.run {
+            iv_photo.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.shape_circle))
             imageLoadManager.loadImageIntoImageView(iv_photo, bitmapTransformer, item.photoUrl)
             tv_name.text = item.fullName
-            setOnClickListener { itemClickListener.invoke(item) }
+            setOnClickListener { itemClickListener.invoke(item, position) }
+
+            //Set iv's tag to find it later during shared element transition
+            iv_photo.tag = TransitionNames.TRANSITION_FRIEND_LIST_FRIEND_DETAILS + item.id
+            //Set shared element transition name
+            ViewCompat.setTransitionName(iv_photo, TransitionNames.TRANSITION_FRIEND_LIST_FRIEND_DETAILS + item.id)
         }
     }
 

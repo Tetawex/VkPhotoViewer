@@ -7,7 +7,7 @@ package org.tetawex.vkphotoviewer.app.model.repository.api
 object Config {
     val AUTH_ENDPOINT = "https://oauth.vk.com/authorize"
     val REDIRECT_URI = "https://oauth.vk.com/blank.html"
-    val CLIENT_ID = "6639260"
+    val CLIENT_ID = "6639562"
     val API_VERSION = "5.80"
     val ENCODING = "UTF-8"
 

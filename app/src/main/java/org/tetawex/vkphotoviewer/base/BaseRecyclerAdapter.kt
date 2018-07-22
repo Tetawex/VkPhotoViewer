@@ -18,7 +18,7 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(protected va
 
     abstract val layoutId: Int
 
-    abstract fun bindSingleItem(viewHolder: VH, item: T)
+    abstract fun bindSingleItem(viewHolder: VH, item: T, position: Int)
 
     abstract fun createVH(view: View): VH
 
@@ -28,7 +28,7 @@ abstract class BaseRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(protected va
     }
 
     override fun onBindViewHolder(viewHolder: VH, position: Int) {
-        this.bindSingleItem(viewHolder, this.data[position])
+        this.bindSingleItem(viewHolder, this.data[position], position)
     }
 
     fun replaceData(data: List<T>) {

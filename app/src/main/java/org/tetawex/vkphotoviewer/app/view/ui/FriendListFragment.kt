@@ -5,8 +5,10 @@ import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_friends_list.*
+import kotlinx.android.synthetic.main.view_progressbar.*
 import org.tetawex.vkphotoviewer.R
 import org.tetawex.vkphotoviewer.app.App
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
@@ -40,6 +42,8 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
 
     override fun appendList(items: List<FriendsListItem>) {
         Log.e("appended adapter is", friendListRecyclerAdapter.toString())
+
+        Log.e("current thread is ", Thread.currentThread().name)
         friendListRecyclerAdapter.appendDataWithNotify(items)
     }
 
@@ -55,7 +59,7 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
         friendListRecyclerAdapter = FriendListRecyclerAdapter(
                 context!!,
                 imageLoadManager,
-                { item -> presenter.onOpenFriendDetails(item) })
+                { item, position -> presenter.onOpenFriendDetails(item) })
         return view
     }
 
@@ -72,7 +76,13 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
     }
 
     override fun openFriendDetails(id: Long, fullName: String, photoPreviewUrl: String) {
-        router.navigateToFriendDetailsScreen(id, fullName, photoPreviewUrl)
+        val transitionList: MutableList<View> = ArrayList(1)
+        rv_friend_list
+                .findViewWithTag<ImageView>(TransitionNames.TRANSITION_FRIEND_LIST_FRIEND_DETAILS + id)
+                ?.also {
+                    transitionList.add(it)
+                }
+        router.navigateToFriendDetailsScreen(id, fullName, photoPreviewUrl, transitionList)
     }
 
     override fun postInit() {
@@ -87,6 +97,7 @@ class FriendListFragment : RoutedFragment<FriendListView, FriendListPresenter, M
     }
 
     override fun onResume() {
+        friendListRecyclerAdapter.notifyDataSetChanged()
         super.onResume()
         friendListRecyclerAdapter.notifyDataSetChanged()
         Log.e("the actual adapter is", rv_friend_list.adapter.toString())

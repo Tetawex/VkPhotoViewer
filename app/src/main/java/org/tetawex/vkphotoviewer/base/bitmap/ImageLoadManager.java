@@ -1,5 +1,7 @@
 package org.tetawex.vkphotoviewer.base.bitmap;
 
+import android.graphics.Bitmap;
+import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
 import java.util.HashMap;
@@ -11,6 +13,8 @@ import java.util.Map;
  */
 public class ImageLoadManager {
     private Map<String, AsyncImageLoader> activeLoaders;
+    private LruCache<String, Bitmap> bitmapCache;
+
 
     public ImageLoadManager() {
         activeLoaders = new HashMap<>();

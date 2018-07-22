@@ -39,7 +39,7 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider) : Reposit
                             "&v=" + Config.API_VERSION +
                             "&count=" + count))
 
-            //Log.e("result",result)
+            Log.e("result",result)
 
             //Deserialize
             val response = JSONObject(result).getJSONObject("response")

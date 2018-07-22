@@ -14,9 +14,13 @@ class FriendListPresenter(val friendListInteractor: FriendListInteractor,
                           viewState: FriendListViewState) :
         BasePresenter<FriendListView>(viewState) {
     override fun onFirstViewAttached() {
+        viewRelay.showProgressbar()
         friendListInteractor
                 .getFriendsList(0, 100)
                 .applySchedulers()
+                .doFinally {
+                    viewRelay.hideProgressbar()
+                }
                 .subscribe(
                         { list ->
                             viewRelay.appendList(list)

@@ -1,6 +1,7 @@
 package org.tetawex.vkphotoviewer.app.view.ui
 
-import android.os.Bundle
+import android.support.v4.view.ViewCompat
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_friend_detail.*
@@ -10,6 +11,7 @@ import org.tetawex.vkphotoviewer.app.App
 import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
 import org.tetawex.vkphotoviewer.app.presenter.FriendDetailsPresenter
 import org.tetawex.vkphotoviewer.app.view.abs.FriendDetailsView
+import org.tetawex.vkphotoviewer.app.view.abs.ImmersiveView
 import org.tetawex.vkphotoviewer.app.view.router.MainRouter
 import org.tetawex.vkphotoviewer.base.RoutedFragment
 import org.tetawex.vkphotoviewer.base.bitmap.BitmapTransformer
@@ -21,8 +23,8 @@ import org.tetawex.vkphotoviewer.base.util.viewextensions.show
 
 class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPresenter, MainRouter, App>(), FriendDetailsView {
     override fun loadDefaultData() {
+        Log.e("args are ", arguments.toString())
         arguments?.also {
-            userId = it.getInt(BUNDLE_TAG_ID, 0).toLong()
             tv_full_name.text = it.getString(BUNDLE_TAG_FULL_NAME, "")
             imageLoadManager.loadImageIntoImageView(
                     iv_photo,
@@ -55,9 +57,21 @@ class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPre
                 url)
     }
 
+    override fun onStart() {
+        arguments?.also { userId = it.getInt(BUNDLE_TAG_ID, 0).toLong() }
+        ViewCompat.setTransitionName(iv_photo, TransitionNames.TRANSITION_FRIEND_LIST_FRIEND_DETAILS + userId)
+        super.onStart()
+        setImmersiveMode(true)
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onStop() {
+        super.onStop()
+        setImmersiveMode(false)
+    }
+
+    private fun setImmersiveMode(enabled: Boolean) {
+        if (activity is ImmersiveView)
+            (activity as ImmersiveView).setUseImmersiveMode(enabled)
     }
 
     override fun setupViews(view: View): View {
@@ -87,7 +101,7 @@ class FriendDetailsFragment : RoutedFragment<FriendDetailsView, FriendDetailsPre
         super.onDestroy()
         imageLoadManager.clear()
         //A window like this one should either be disposable or have a unique presenter tag
-        //dispose()
+        dispose()
     }
 }
 
