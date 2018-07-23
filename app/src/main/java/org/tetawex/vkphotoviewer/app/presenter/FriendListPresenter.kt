@@ -28,7 +28,7 @@ class FriendListPresenter(val friendListInteractor: FriendListInteractor,
             viewRelay.showProgressbar()
         friendListDisposable.dispose()
         friendListDisposable = friendListInteractor
-                .getFriendsList(0, 10000)
+                .getFriendList(0, 10000)
                 .applySchedulers()
                 .doFinally {
                     viewRelay.hideProgressbar()

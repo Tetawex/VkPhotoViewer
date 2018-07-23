@@ -20,7 +20,7 @@ import kotlin.collections.ArrayList
 class RestRepository(private val authTokenProvider: AuthTokenProvider,
                      private val webRequestPerformer: WebRequestPerformer) : Repository {
 
-    override fun getFriendsFeed(offset: Int, count: Int): Single<List<FriendsListItem>> =
+    override fun getFriendList(offset: Int, count: Int): Single<List<FriendsListItem>> =
             Single.fromCallable {
                 //Fetch
                 val result = webRequestPerformer.performWebRequest(
@@ -30,8 +30,6 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider,
                                 "&offset=" + offset +
                                 "&v=" + Config.API_VERSION +
                                 "&count=" + count))
-
-                //Log.d("result", result)
 
                 //Deserialize
                 val response = JSONObject(result).getJSONObject("response")
@@ -65,7 +63,7 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider,
                                 "&fields=about,photo_max_orig" +
                                 "&v=" + Config.API_VERSION +
                                 "&count=" + 1))
-                Log.e("result for id " + id, result)
+                //Log.e("result for id " + id, result)
 
                 //Deserialize
                 val array = JSONObject(result).getJSONArray("response")
@@ -73,7 +71,7 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider,
                 if (array.length() < 1)
                     throw UserDoesNotExistException()
 
-                Log.e("jsonObj ", "" + array.length() + "  " + array.getJSONObject(0).toString())
+                //Log.e("jsonObj ", "" + array.length() + "  " + array.getJSONObject(0).toString())
 
                 val jsonObject = array.getJSONObject(0)
                 val fullName = jsonObject.getString("first_name") + " " + jsonObject.getString("last_name")

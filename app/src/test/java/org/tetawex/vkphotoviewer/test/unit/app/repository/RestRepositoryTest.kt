@@ -24,14 +24,15 @@ class RestRepositoryTest : RuledTest() {
     @Mock
     lateinit var authTokenProvider: AuthTokenProvider
 
-    companion object {
-        const val stubAuthToken = "token"
-        const val stubFirstName = "first"
-        const val stubSecondName = "second"
-        const val stubUserId = 0L
-        const val stubPhotoUrl = "photo_url"
-        const val stubAbout = "about"
-    }
+
+    val stubAuthToken = "token"
+    val stubFirstName = "first"
+    val stubSecondName = "second"
+    val stubUserId = 0L
+    val stubPhotoUrl = "photo_url"
+    val stubAbout = "about"
+    val stubCount = 10000
+
 
     @Before
     fun init() {
@@ -51,6 +52,7 @@ class RestRepositoryTest : RuledTest() {
         val restRepository = RestRepository(authTokenProvider, webRequestPerformer)
         restRepository.getFriendDetailsById(stubUserId)
                 .test()
+                .assertNoErrors()
                 .assertValue { details ->
                     assertEquals(stubFirstName + " " + stubSecondName, details.fullName)
                     assertEquals(stubPhotoUrl, details.photoUrl)
@@ -69,6 +71,7 @@ class RestRepositoryTest : RuledTest() {
         val restRepository = RestRepository(authTokenProvider, webRequestPerformer)
         restRepository.getFriendDetailsById(stubUserId)
                 .test()
+                .assertNoErrors()
                 .assertValue { details ->
                     assertEquals(stubFirstName + " " + stubSecondName, details.fullName)
                     assertEquals(stubPhotoUrl, details.photoUrl)
@@ -90,6 +93,40 @@ class RestRepositoryTest : RuledTest() {
                 .assertFailure(Throwable::class.java)
     }
 
+    @Test
+    fun restRepository_getFriendList_deserializeOnSuccessJsonCorrectly() {
+        whenever(webRequestPerformer
+                .performWebRequest(anyOrNull<URL>()))
+                .thenReturn(createFriendListResponse())
+
+        val restRepository = RestRepository(authTokenProvider, webRequestPerformer)
+        restRepository.getFriendList(0, stubCount)
+                .test()
+                .assertNoErrors()
+                .assertValue { list ->
+                    assertEquals(stubCount, list.size)
+                    list.forEach {
+                        assertEquals(stubFirstName + " " + stubSecondName, it.fullName)
+                        assertEquals(stubPhotoUrl, it.photoUrl)
+                        assertEquals(stubUserId, it.id)
+                    }
+
+                    return@assertValue true
+                }
+    }
+
+    @Test
+    fun restRepository_getFriendList_throwExceptionOnMalformedResponse() {
+        whenever(webRequestPerformer
+                .performWebRequest(anyOrNull<URL>()))
+                .thenReturn("abc")
+
+        val restRepository = RestRepository(authTokenProvider, webRequestPerformer)
+        restRepository.getFriendDetailsById(stubUserId)
+                .test()
+                .assertFailure(Throwable::class.java)
+    }
+
     private fun createFriendDetailsResponse(includeAboutUserField: Boolean): String {
         val user = JSONObject()
         user.put("id", stubUserId)
@@ -101,6 +138,27 @@ class RestRepositoryTest : RuledTest() {
 
         val response = JSONArray()
         response.put(0, user)
+
+        val jsonObject = JSONObject()
+        jsonObject.put("response", response)
+
+        return jsonObject.toString()
+    }
+
+    private fun createFriendListResponse(): String {
+        val items = JSONArray()
+        for (i in 0 until stubCount) {
+            val user = JSONObject()
+            user.put("id", stubUserId)
+            user.put("first_name", stubFirstName)
+            user.put("last_name", stubSecondName)
+            user.put("photo_100", stubPhotoUrl)
+            items.put(i, user)
+        }
+
+        val response = JSONObject()
+        response.put("items", items)
+        response.put("count", stubCount)
 
         val jsonObject = JSONObject()
         jsonObject.put("response", response)
