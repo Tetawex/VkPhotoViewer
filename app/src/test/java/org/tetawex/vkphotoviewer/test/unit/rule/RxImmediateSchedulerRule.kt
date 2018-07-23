@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.test.rule
+package org.tetawex.vkphotoviewer.test.unit.rule
 
 import org.junit.rules.TestRule
 import org.junit.runner.Description

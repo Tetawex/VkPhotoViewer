@@ -17,21 +17,13 @@ import kotlin.collections.ArrayList
 /**
  * Created by tetawex on 17.07.2018.
  */
-class RestRepository(private val authTokenProvider: AuthTokenProvider) : Repository {
-    private fun performWebRequest(url: URL): String {
-        val urlConnection = url.openConnection() as HttpURLConnection
-        val bufferedInputStream = BufferedInputStream(urlConnection.inputStream)
-        val scanner = Scanner(bufferedInputStream).useDelimiter("\\A")
-
-        urlConnection.disconnect()
-        return if (scanner.hasNext()) scanner.next() else ""
-    }
+class RestRepository(private val authTokenProvider: AuthTokenProvider,
+                     private val webRequestPerformer: WebRequestPerformer) : Repository {
 
     override fun getFriendsFeed(offset: Int, count: Int): Single<List<FriendsListItem>> =
             Single.fromCallable {
                 //Fetch
-
-                val result = performWebRequest(
+                val result = webRequestPerformer.performWebRequest(
                         URL("https://api.vk.com/method/friends.get?" +
                                 "access_token=" + authTokenProvider.getAuthToken() +
                                 "&fields=photo_100" +
@@ -66,7 +58,7 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider) : Reposit
 
     override fun getFriendDetailsById(id: Long): Single<FriendDetails> =
             Single.fromCallable {
-                val result = performWebRequest(
+                val result = webRequestPerformer.performWebRequest(
                         URL("https://api.vk.com/method/users.get?" +
                                 "access_token=" + authTokenProvider.getAuthToken() +
                                 "&user_ids=" + id +

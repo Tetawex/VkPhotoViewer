@@ -35,7 +35,7 @@ class FriendListPresenter(val friendListInteractor: FriendListInteractor,
                 }
                 .subscribe(
                         { list ->
-                            viewRelay.appendList(list)
+                            viewRelay.setList(list)
                         },
                         { t -> viewRelay.showError(t) }
                 )

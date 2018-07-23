@@ -9,6 +9,7 @@ import org.tetawex.vkphotoviewer.app.model.repository.Preferences
 import org.tetawex.vkphotoviewer.app.model.repository.PreferencesImpl
 import org.tetawex.vkphotoviewer.app.model.repository.Repository
 import org.tetawex.vkphotoviewer.app.model.repository.api.RestRepository
+import org.tetawex.vkphotoviewer.app.model.repository.api.WebClient
 import org.tetawex.vkphotoviewer.app.presenter.AppPresenterManager
 import org.tetawex.vkphotoviewer.base.PresenterManager
 
@@ -30,7 +31,7 @@ class App : Application() {
                 sharedPreferences = applicationContext.getSharedPreferences(
                         Preferences.PREFERENCES_NAME,
                         Context.MODE_PRIVATE))
-        repository = RestRepository(preferences)
+        repository = RestRepository(preferences, WebClient())
 
         //Init factories
         val interactorFactory = InteractorFactory(repository, preferences)

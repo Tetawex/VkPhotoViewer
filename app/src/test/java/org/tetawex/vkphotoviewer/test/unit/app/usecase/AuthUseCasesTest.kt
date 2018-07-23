@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.test.app.usecase
+package org.tetawex.vkphotoviewer.test.unit.app.usecase
 
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -13,13 +13,8 @@ import org.tetawex.vkphotoviewer.app.model.interactor.AuthTokenUseCase
 import org.tetawex.vkphotoviewer.app.model.interactor.LoginPostDataUseCase
 import org.tetawex.vkphotoviewer.app.model.repository.Preferences
 import org.tetawex.vkphotoviewer.app.model.repository.Repository
-import org.tetawex.vkphotoviewer.test.rule.RuledTest
+import org.tetawex.vkphotoviewer.test.unit.rule.RuledTest
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://authenticator.android.com/tools/testing).
- */
 @RunWith(MockitoJUnitRunner::class)
 class AuthUseCasesTest : RuledTest() {
     @Mock
@@ -27,8 +22,8 @@ class AuthUseCasesTest : RuledTest() {
     @Mock
     lateinit var repository: Repository
 
-    val stubAuthToken = "stub"
-    val stubUserId = "stub"
+    val stubAuthToken = "token"
+    val stubUserId = "id"
 
     @Before
     fun init() {
@@ -42,7 +37,7 @@ class AuthUseCasesTest : RuledTest() {
     @Test
     fun authTokenUseCase_tokenReceived_tokenSavedToPreferences() {
         val authTokenUseCase = AuthTokenUseCase(repository, preferences)
-        authTokenUseCase.saveAccessToken(stubAuthToken, stubUserId).subscribe()
+        authTokenUseCase.saveAccessToken(stubAuthToken, stubUserId).test()
 
         verify(preferences).saveAuthToken(stubAuthToken)
         verify(preferences).commit()
