@@ -77,7 +77,6 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppComp
 
     override fun onStop() {
         super.onStop()
-        Log.e("acti", "stop")
         detachPresenter()
     }
 
@@ -87,8 +86,6 @@ abstract class BaseActivity<V : BaseView, out P : BasePresenter<V>, A> : AppComp
 
 
     private fun attachPresenter() {
-        Log.e("acti", "attachpresenter")
-        Log.e("acti presenter is", _presenter.toString())
         if (_presenter == null)
             try {
                 //Crashes if presenter does not match...

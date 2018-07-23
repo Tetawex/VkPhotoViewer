@@ -33,12 +33,12 @@ object ImageLoader {
         //Assign a new one
         activeLoaders[viewKey] = Single
                 .fromCallable {
-                    //The image exists in lru cache, just assign it
+                    //The image exists in lru cache, just retrieve it
                     bitmapCache[url]?.also {
                         return@fromCallable it.copy(it.config, false)
                     }
 
-                    //Download a new image instead
+                    //Download a new image otherwise
                     val urlUrl = URL(url)
                     val stream = urlUrl.openConnection().getInputStream()
                     val bitmap = BitmapFactory.decodeStream(
@@ -60,7 +60,7 @@ object ImageLoader {
                 .doFinally {
                     activeLoaders.remove(viewKey)
                 }
-                //Commented out due to weird behaviors when being called while imageView have not been initialized yet
+                //Commented out due to weird behaviors when being called while imageView have not been expanded yet
                 //Resize and transform the bitmap
                 /*.map { bitmap ->
                     //Check if the imageView still exists to get its dimensions
@@ -84,7 +84,7 @@ object ImageLoader {
                             imageViewStrongReference?.setImageBitmap(bitmapTransformer.transform(bitmap))
                         },
                         {
-                            it.printStackTrace()
+                            //it.printStackTrace()
                         }
                 )
     }

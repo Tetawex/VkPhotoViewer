@@ -56,7 +56,6 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A : Applicat
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): android.view.View? {
-        Log.e("frag", "createview")
 
         val view = inflater.inflate(layoutId, container, false)
 
@@ -69,7 +68,6 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A : Applicat
 
     override fun onStart() {
         super.onStart()
-        Log.e("frag", "start")
 
         preInit()
 
@@ -85,20 +83,15 @@ abstract class BaseFragment<V : BaseView, out P : BasePresenter<V>, A : Applicat
 
     override fun onStop() {
         super.onStop()
-        Log.e("frag", "stop")
+        detachPresenter()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.e("frag", "detachview")
-        detachPresenter()
     }
 
 
     protected fun attachPresenter() {
-        Log.e("frag", "attachpresenter")
-        Log.e("frag presenter is", _presenter.toString())
-
         //Attach presenter if it is null
         if (_presenter == null)
             try {

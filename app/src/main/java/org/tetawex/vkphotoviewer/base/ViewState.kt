@@ -16,7 +16,6 @@ abstract class ViewState<V : BaseView> : BaseView {
     }
 
     fun restoreState(view: V) {
-        Log.e("viewstate", "restoring vs from entries count " + commandQueue.size)
         for (command in commandQueue) {
             command.invoke(view)
         }

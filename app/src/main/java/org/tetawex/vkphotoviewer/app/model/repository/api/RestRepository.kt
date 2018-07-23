@@ -63,15 +63,12 @@ class RestRepository(private val authTokenProvider: AuthTokenProvider,
                                 "&fields=about,photo_max_orig" +
                                 "&v=" + Config.API_VERSION +
                                 "&count=" + 1))
-                //Log.e("result for id " + id, result)
 
                 //Deserialize
                 val array = JSONObject(result).getJSONArray("response")
 
                 if (array.length() < 1)
                     throw UserDoesNotExistException()
-
-                //Log.e("jsonObj ", "" + array.length() + "  " + array.getJSONObject(0).toString())
 
                 val jsonObject = array.getJSONObject(0)
                 val fullName = jsonObject.getString("first_name") + " " + jsonObject.getString("last_name")
