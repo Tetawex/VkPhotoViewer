@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.test.unit.app.usecase
+package org.tetawex.vkphotoviewer.test.unit.app.interactor
 
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
@@ -9,8 +9,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import org.tetawex.vkphotoviewer.app.model.interactor.FriendDetailsUseCase
-import org.tetawex.vkphotoviewer.app.model.interactor.FriendListUseCase
+import org.tetawex.vkphotoviewer.app.model.usecase.FriendDetailsInteractor
+import org.tetawex.vkphotoviewer.app.model.usecase.FriendListInteractor
 import org.tetawex.vkphotoviewer.app.model.repository.Repository
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendDetails
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
@@ -18,7 +18,7 @@ import org.tetawex.vkphotoviewer.test.unit.rule.RuledTest
 import java.io.IOException
 
 @RunWith(MockitoJUnitRunner::class)
-class FriendListDetailsUseCasesTest : RuledTest() {
+class FriendListDetailsInteractorsTest : RuledTest() {
     @Mock
     lateinit var repository: Repository
 
@@ -50,7 +50,7 @@ class FriendListDetailsUseCasesTest : RuledTest() {
                 .thenReturn(Single.just(items))
 
         //Test
-        val friendListUseCase = FriendListUseCase(repository)
+        val friendListUseCase = FriendListInteractor(repository)
         friendListUseCase.getFriendList(0, stubCount)
                 .test()
                 .assertNoErrors()
@@ -69,7 +69,7 @@ class FriendListDetailsUseCasesTest : RuledTest() {
         whenever(repository.getFriendList(any(), any()))
                 .thenReturn(Single.error(IOException()))
 
-        val friendListUseCase = FriendListUseCase(repository)
+        val friendListUseCase = FriendListInteractor(repository)
         friendListUseCase.getFriendList(0, stubCount)
                 .test()
                 .assertError(Throwable()::class.java)
@@ -84,7 +84,7 @@ class FriendListDetailsUseCasesTest : RuledTest() {
                 .thenReturn(Single.just(stubFriendDetails))
 
         //Test
-        val friendDetailsUseCase = FriendDetailsUseCase(repository)
+        val friendDetailsUseCase = FriendDetailsInteractor(repository)
         friendDetailsUseCase.getFriendsDetail(0)
                 .test()
                 .assertNoErrors()
@@ -99,7 +99,7 @@ class FriendListDetailsUseCasesTest : RuledTest() {
         whenever(repository.getFriendDetailsById(any()))
                 .thenReturn(Single.error(IOException()))
 
-        val friendDetailsUseCase = FriendDetailsUseCase(repository)
+        val friendDetailsUseCase = FriendDetailsInteractor(repository)
         friendDetailsUseCase.getFriendsDetail(0)
                 .test()
                 .assertError(Throwable()::class.java)

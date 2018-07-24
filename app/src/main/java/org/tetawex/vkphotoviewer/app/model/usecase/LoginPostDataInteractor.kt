@@ -1,9 +1,9 @@
-package org.tetawex.vkphotoviewer.app.model.interactor
+package org.tetawex.vkphotoviewer.app.model.usecase
 
 import org.tetawex.vkphotoviewer.app.model.repository.api.Config
 import java.net.URLEncoder
 
-class LoginPostDataUseCase : LoginPostDataInteractor {
+class LoginPostDataInteractor : LoginPostDataUseCase {
     override fun getPostDataUrl() = StringBuilder()
             .append("client_id=").append(URLEncoder.encode(Config.CLIENT_ID, Config.ENCODING))
             .append("&display=").append(URLEncoder.encode("mobile", Config.ENCODING))

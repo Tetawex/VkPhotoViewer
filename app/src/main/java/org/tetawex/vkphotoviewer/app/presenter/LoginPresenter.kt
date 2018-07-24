@@ -1,7 +1,7 @@
 package org.tetawex.vkphotoviewer.app.presenter
 
-import org.tetawex.vkphotoviewer.app.model.interactor.AuthTokenInteractor
-import org.tetawex.vkphotoviewer.app.model.interactor.LoginPostDataInteractor
+import org.tetawex.vkphotoviewer.app.model.usecase.AuthTokenUseCase
+import org.tetawex.vkphotoviewer.app.model.usecase.LoginPostDataUseCase
 import org.tetawex.vkphotoviewer.app.model.repository.api.Config
 import org.tetawex.vkphotoviewer.app.view.abs.LoginView
 import org.tetawex.vkphotoviewer.app.view.viewstate.LoginViewState
@@ -11,8 +11,8 @@ import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
 /**
  * Created by tetawex on 16.07.2018.
  */
-class LoginPresenter(private val userCodeInteractor: AuthTokenInteractor,
-                     private val loginPostDataInteractor: LoginPostDataInteractor,
+class LoginPresenter(private val userCodeUseCase: AuthTokenUseCase,
+                     private val loginPostDataUseCase: LoginPostDataUseCase,
                      viewState: LoginViewState)
     : BasePresenter<LoginView>(viewState) {
 
@@ -26,7 +26,7 @@ class LoginPresenter(private val userCodeInteractor: AuthTokenInteractor,
 
     fun onTokenReceived(token: String, userId: String) {
         viewRelay.showProgressbar()
-        userCodeInteractor.saveAccessToken(token, userId)
+        userCodeUseCase.saveAccessToken(token, userId)
                 .applySchedulers()
                 .subscribe({
                     viewRelay.finishLogin()
@@ -44,7 +44,7 @@ class LoginPresenter(private val userCodeInteractor: AuthTokenInteractor,
 
     private fun postUrlInView() {
         viewRelay.showProgressbar()
-        viewRelay.postUrl(Config.AUTH_ENDPOINT, loginPostDataInteractor
+        viewRelay.postUrl(Config.AUTH_ENDPOINT, loginPostDataUseCase
                 .getPostDataUrl()
                 .toByteArray()
         )

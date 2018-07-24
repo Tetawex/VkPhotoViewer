@@ -1,6 +1,6 @@
 package org.tetawex.vkphotoviewer.app.presenter
 
-import org.tetawex.vkphotoviewer.app.model.interactor.FriendDetailsInteractor
+import org.tetawex.vkphotoviewer.app.model.usecase.FriendDetailsUseCase
 import org.tetawex.vkphotoviewer.app.view.abs.FriendDetailsView
 import org.tetawex.vkphotoviewer.app.view.viewstate.FriendDetailsViewState
 import org.tetawex.vkphotoviewer.base.BasePresenter
@@ -9,7 +9,7 @@ import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
 /**
  * Created by tetawex on 20.07.2018.
  */
-class FriendDetailsPresenter(private val friendDetailsInteractor: FriendDetailsInteractor,
+class FriendDetailsPresenter(private val friendDetailsUseCase: FriendDetailsUseCase,
                              viewState: FriendDetailsViewState) :
         BasePresenter<FriendDetailsView>(viewState) {
     //Yes it's a band-aid as it violates mvp dumb-view rule, the variable should be assigned via
@@ -17,7 +17,7 @@ class FriendDetailsPresenter(private val friendDetailsInteractor: FriendDetailsI
     var userId = 0L
 
     override fun onFirstViewAttached() {
-        friendDetailsInteractor
+        friendDetailsUseCase
                 .getFriendsDetail(userId)
                 .applySchedulers()
                 .subscribe(

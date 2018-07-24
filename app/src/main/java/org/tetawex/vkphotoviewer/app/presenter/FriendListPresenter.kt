@@ -1,7 +1,7 @@
 package org.tetawex.vkphotoviewer.app.presenter
 
 import io.reactivex.disposables.Disposables
-import org.tetawex.vkphotoviewer.app.model.interactor.FriendListInteractor
+import org.tetawex.vkphotoviewer.app.model.usecase.FriendListUseCase
 import org.tetawex.vkphotoviewer.app.model.repository.api.dto.FriendsListItem
 import org.tetawex.vkphotoviewer.app.view.abs.FriendListView
 import org.tetawex.vkphotoviewer.app.view.viewstate.FriendListViewState
@@ -11,7 +11,7 @@ import org.tetawex.vkphotoviewer.base.util.rxextensions.applySchedulers
 /**
  * Created by tetawex on 20.07.2018.
  */
-class FriendListPresenter(val friendListInteractor: FriendListInteractor,
+class FriendListPresenter(val friendListUseCase: FriendListUseCase,
                           viewState: FriendListViewState) :
         BasePresenter<FriendListView>(viewState) {
     var friendListDisposable = Disposables.empty()
@@ -27,7 +27,7 @@ class FriendListPresenter(val friendListInteractor: FriendListInteractor,
         if (showProgressBar)
             viewRelay.showProgressbar()
         friendListDisposable.dispose()
-        friendListDisposable = friendListInteractor
+        friendListDisposable = friendListUseCase
                 .getFriendList(0, 10000)
                 .applySchedulers()
                 .doFinally {

@@ -1,4 +1,4 @@
-package org.tetawex.vkphotoviewer.test.unit.app.usecase
+package org.tetawex.vkphotoviewer.test.unit.app.interactor
 
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -9,14 +9,14 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import org.tetawex.vkphotoviewer.app.model.interactor.AuthTokenUseCase
-import org.tetawex.vkphotoviewer.app.model.interactor.LoginPostDataUseCase
+import org.tetawex.vkphotoviewer.app.model.usecase.AuthTokenInteractor
+import org.tetawex.vkphotoviewer.app.model.usecase.LoginPostDataInteractor
 import org.tetawex.vkphotoviewer.app.model.repository.Preferences
 import org.tetawex.vkphotoviewer.app.model.repository.Repository
 import org.tetawex.vkphotoviewer.test.unit.rule.RuledTest
 
 @RunWith(MockitoJUnitRunner::class)
-class AuthUseCasesTest : RuledTest() {
+class AuthInteractorsTest : RuledTest() {
     @Mock
     lateinit var preferences: Preferences
     @Mock
@@ -36,7 +36,7 @@ class AuthUseCasesTest : RuledTest() {
 
     @Test
     fun authTokenUseCase_tokenReceived_tokenSavedToPreferences() {
-        val authTokenUseCase = AuthTokenUseCase(repository, preferences)
+        val authTokenUseCase = AuthTokenInteractor(repository, preferences)
         authTokenUseCase.saveAccessToken(stubAuthToken, stubUserId).test()
 
         verify(preferences).saveAuthToken(stubAuthToken)
@@ -45,7 +45,7 @@ class AuthUseCasesTest : RuledTest() {
 
     @Test
     fun loginPostData_containsRequiredFields() {
-        val loginPostDataInteractor = LoginPostDataUseCase()
+        val loginPostDataInteractor = LoginPostDataInteractor()
         val data = loginPostDataInteractor.getPostDataUrl()
         assertTrue(data.contains("client_id=")
                 && data.contains("&redirect_uri=")
